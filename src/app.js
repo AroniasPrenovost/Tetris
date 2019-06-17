@@ -55,6 +55,92 @@ function moveDown(activePieceObj) {
 	}
 }
 
+function moveLeft(activePieceObj) {
+	let coords = activePieceObj.coordinates;
+	console.log(coords);
+	for (var i = 0; i < coords.length; i++) {
+		coords[i].y = coords[i].y - 1;
+	}
+}
+
+function moveRight(activePieceObj) {
+	let coords = activePieceObj.coordinates;
+	console.log(coords);
+	for (var i = 0; i < coords.length; i++) {
+		coords[i].y = coords[i].y + 1;
+	}
+}
+
+function rotateRight(activePieceObj) {
+	let coords = activePieceObj.coordinates;
+	for (var i = 0; i < coords.length; i++) {
+		let xPos = coords[i].x;
+		let yPos = coords[i].y;
+
+		if (activePieceObj.horizontal === true) {
+			if (i === 0) {
+				xPos = xPos - 1;
+				yPos = yPos + 1;
+			}
+
+			if (i === 1) {
+				xPos = xPos;
+				yPos = yPos;
+			}
+
+			if (i === 2) {
+				xPos = xPos + 1;
+				yPos = yPos - 1;
+			}
+
+			if (i === 3) {
+				xPos = xPos + 2;
+				yPos = yPos - 2;
+			}
+
+			coords[i].x = xPos;
+			coords[i].y = yPos;
+
+
+		}
+
+		if (activePieceObj.horizontal === false) {
+			if (i === 0) {
+				xPos = xPos + 1;
+				yPos = yPos + 1;
+			}
+
+			if (i === 1) {
+
+				xPos = xPos;
+				yPos = yPos;
+			}
+
+			if (i === 2) {
+				xPos = xPos + - 1;
+				yPos = yPos + - 1;
+
+			}
+
+			if (i === 3) {
+				xPos = xPos - 2;
+				yPos = yPos - 2;
+			}
+
+			coords[i].x = xPos + 1;
+			coords[i].y = yPos + 1;
+		}
+	}
+
+	if (activePieceObj.horizontal === true) {
+
+		activePieceObj.horizontal = false;
+	} else {
+		activePieceObj.coordinates.reverse();
+		activePieceObj.horizontal = true;
+	}
+}
+
 var moves = 0;
 if (moves === 0) {
 	placePiece(currentActivePiece);
@@ -66,10 +152,10 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 	switch (keyBoardCmdStr) {
 		case 'ArrowDown':
 
+			// continue;
+			// 	moveDown(activePieceObj);
 
-			moveDown(activePieceObj);
-			// moveDown(activePieceObj);
-
+			// 	placePiece(activePieceObj);
 			// placePiece --- 
 			// to do... 
 
@@ -79,23 +165,30 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			break;
 		case 'ArrowUp':
 			console.log('rotate right');
+			rotateRight(activePieceObj);
 		case 'KeyZ':
 			console.log('rotate left');
 			break;
 		case 'ArrowLeft':
-			console.log('arrow left (moves once per keydowni');
+			moveLeft(activePieceObj);
 			break;
 		case 'ArrowRight':
-			console.log('arrow right (moves once per keydown');
+			moveRight(activePieceObj);
 			break;
 		case 'Space':
-			console.log('space (hard drop)');
+			// 'hard drop' 
+			moveDown(activePieceObj);
+			placePiece(activePieceObj);
+
+			// exit process 
+			// to do... 
+
+			// 1. keyBoardCmd = 'Space'
+			// 2. exit process
+
 			break;
 		case 'Escape':
 			timerBtn.click();
-			break;
-		case 'ArrowDown':
-
 			break;
 		default:
 			console.log('inactive button');
