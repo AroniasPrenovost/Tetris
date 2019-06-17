@@ -1,0 +1,17 @@
+{
+  "name": "tetris",
+  "version": "0.1.0",
+  "description": "Tetris",
+  "scripts": {
+    "start": "npm run webpack",
+    "webpack": "gulp watch & webpack -d --watch &"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "webpack": "^3.12.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.24.6",
+    "gulp-sass": "^4.0.1"
+  }
+}

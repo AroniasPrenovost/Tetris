@@ -1,0 +1,123 @@
+body {
+	background-color: #fad390;
+	width:auto;
+	height:100%; 
+	overflow-x: hidden;
+}
+.game-container {
+  margin: 0 auto;
+  max-width: 700px;
+  height: 0 auto;
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+* {
+	box-sizing: border-box;
+}
+  
+.row {
+	display: flex;
+}
+  
+/* game and lines, etc. column */
+.column {
+	flex: 50%;
+	padding: 10px;
+	display:none;
+}
+
+.column:first-child {
+	background-color:#aaa;
+}
+
+.column:nth-child(2) {
+background-color:#bbb;
+}
+
+#menu {
+	position: relative;
+	width: 100%;
+	text-align: center;	
+}
+/* <!-- lists */
+
+ul li {
+	opacity:.5;
+	list-style-type:square;
+	transition: opacity .2s ease-out;
+	-moz-transition: opacity .2s ease-out;
+	-webkit-transition: opacity .2s ease-out;
+	-o-transition: opacity .2s ease-out; 
+}
+
+#menu ul li {
+	margin-right: 2em;
+}
+
+ul li:hover {
+	opacity:1; 
+}
+
+li.inline {
+	float:left; 
+	margin-right:2em;
+}
+/* lists --> */
+
+/* <-- game grid */ 
+table {
+	border:none;
+	max-width:200px; 
+	background-color: none; /* this can't match td color */
+}
+
+table, th, td {
+	// border: 0px; 
+	// border-collapse: collapse;
+}
+
+tr { 
+	line-height:0px;
+	height:10.5px; /* 500px / 23 rows */
+}
+
+tr.piece-staging-row {
+	background-color: red !important; 
+}
+
+#gameGrid {
+	display:none;
+}
+
+td {
+	background-color: transparent; /* outer, trimmed table secton. not apart of play field */
+	border:1px solid black;
+	min-height:14px;
+	vertical-align: bottom;
+	min-width: 12px; 
+	// padding: 0 0 0 0;
+}
+
+td.staging-cell {
+	background-color: red;
+}
+
+.cell {
+	
+}
+
+/* game grid -->  */ 
+
+/*
+	<!-- pieces 
+*/
+
+.iPieceClass {
+	background-color: green;
+}
+
+
+/*
+	pieces --> 
+*/
