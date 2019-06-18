@@ -1,14 +1,6 @@
 import { generateGameGrid, generateBoardObject } from './modules/generateTable';
 import { createPiece, getRandomPieceStr } from './modules/generatePieces';
 
-// 1. draw board 
-// 2. start/stop interval set up
-// 3. start interval 
-// 4. draw piece 
-// 5. allow movement
-// 6. stop movement
-// collision detection 
-
 // initialize grid and play grid object 
 generateGameGrid();
 
@@ -76,7 +68,7 @@ function moveRight(activePieceObj) {
 	}
 }
 
-function rotateRight(activePieceObj) {
+function rotate(activePieceObj) {
 	let coords = activePieceObj.coordinates;
 	for (var i = 0; i < coords.length; i++) {
 		let xPos = coords[i].x;
@@ -149,80 +141,27 @@ function rotateRight(activePieceObj) {
 	}
 }
 
-// function rotateLeft(activePieceObj) {
-// 	let coords = activePieceObj.coordinates;
-// 	activePieceObj.rotateIndex = 2;
-// 	for (var i = 0; i < coords.length; i++) {
-// 		let xPos = coords[i].x;
-// 		let yPos = coords[i].y;
-
-// 		if (activePieceObj.horizontal === true) {
-// 			if (i === 0) {
-// 				xPos = xPos - 1;
-// 				yPos = yPos + 1;
-// 			}
-
-// 			if (i === 1) {
-// 				xPos = xPos;
-// 				yPos = yPos;
-// 			}
-
-// 			if (i === 2) {
-// 				xPos = xPos + 1;
-// 				yPos = yPos - 1;
-// 			}
-
-// 			if (i === 3) {
-// 				xPos = xPos + 2;
-// 				yPos = yPos - 2;
-// 			}
-
-// 			coords[i].x = xPos;
-// 			coords[i].y = yPos;
-
-
-// 		}
-
-// 		if (activePieceObj.horizontal === false) {
-// 			if (i === 0) {
-// 				xPos = xPos + 1;
-// 				yPos = yPos + 1;
-// 			}
-
-// 			if (i === 1) {
-
-// 				xPos = xPos;
-// 				yPos = yPos;
-// 			}
-
-// 			if (i === 2) {
-// 				xPos = xPos + - 1;
-// 				yPos = yPos + - 1;
-
-// 			}
-
-// 			if (i === 3) {
-// 				xPos = xPos - 2;
-// 				yPos = yPos - 2;
-// 			}
-
-// 			coords[i].x = xPos + 1;
-// 			coords[i].y = yPos + 1;
-// 		}
-// 	}
-
-// 	if (activePieceObj.horizontal === true) {
-
-// 		activePieceObj.horizontal = false;
-// 	} else {
-// 		activePieceObj.coordinates.reverse();
-// 		activePieceObj.horizontal = true;
-// 	}
-// }
-
 var moves = 0;
 if (moves === 0) {
 	placePiece(currentActivePiece);
+}
+
+function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
+	switch (keyBoardCmdStr) {
+		case 'ArrowUp':
+		case 'KeyZ':
+			console.log('rotate');
+			rotate(activePieceObj);
+			break;
+		case 'ArrowLeft':
+			moveLeft(activePieceObj);
+			break;
+		case 'ArrowRight':
+			moveRight(activePieceObj);
+			break;
+		default:
+			console.log('no cmd entered');
+	}
 }
 
 // movement function 
@@ -232,24 +171,13 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 
 	switch (keyBoardCmdStr) {
 		case 'ArrowDown':
-
-			// continue;
-			// 	moveDown(activePieceObj);
-
-			// 	placePiece(activePieceObj);
-			// placePiece --- 
+			// clear interval 
 			// to do... 
-
-			// console.log(activePieceObj);
-			// console.log('arrow down (soft drop')
-
 			break;
 		case 'ArrowUp':
-			console.log('rotate right');
-			rotateRight(activePieceObj);
 		case 'KeyZ':
-			console.log('rotate left');
-			//rotateLeft(activePieceObj);
+			console.log('rotate');
+			rotate(activePieceObj);
 			break;
 		case 'ArrowLeft':
 			moveLeft(activePieceObj);
@@ -273,15 +201,18 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			timerBtn.click();
 			break;
 		default:
-			console.log('inactive button');
+			console.log('no cmd entered');
 	}
+	keyBoardCmd = '';
 
 	// moveDown(activePieceObj);
 	removePreviousPieces(activePieceObj);
+	getLastSecondSlide(activePieceObj, keyBoardCmd);
 	moveDown(activePieceObj);
 	placePiece(activePieceObj);
 	moves++;
 	keyBoardCmd = '';
+
 }
 
 var myVar = setInterval(function () {

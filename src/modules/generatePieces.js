@@ -71,7 +71,7 @@ function iPiece() {
         { x: 1, y: 6 }
     ];
     this.horizontal = true;
-    this.RotateIndex = 1;
+    this.rotateIndex = 1;
     this.previousRotation = '';
 
     this.remove = function (arg1) {
