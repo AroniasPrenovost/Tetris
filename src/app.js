@@ -14,9 +14,10 @@ var gameGrid = document.getElementById('gameGrid');
 var columns = document.getElementsByClassName('column');
 
 // board specs
-// var tableCells = cells.length;
-// var height = document.getElementById('table').rows.length;
-// var rowLength = Math.ceil((tableCells / height)); // should be divisible by 10 
+var tableCells = document.getElementsByClassName('cell').length;
+var height = document.getElementById('table').rows.length;
+var rowLength = Math.ceil((tableCells / height)); // should be divisible by 10 
+var lastRow = 21;
 
 // captures user input 
 var keyBoardCmd = '';
@@ -34,8 +35,13 @@ function placePiece(activePieceObj) {
 		let xPos = coords[i].x;
 		let yPos = coords[i].y;
 
+
+
 		let posNumber = boardObject[xPos][yPos].position;
 		cells[posNumber].classList.add(activePieceObj.model + 'Class');
+		// if (xPos === lastRow) {
+		// 	console.log('red')
+		// }
 	}
 }
 
@@ -48,7 +54,6 @@ function removePreviousPieces(activePieceObj) {
 
 function moveDown(activePieceObj) {
 	let coords = activePieceObj.coordinates;
-	console.log(coords);
 	for (var i = 0; i < coords.length; i++) {
 		coords[i].x = coords[i].x + 1;
 	}
@@ -150,7 +155,6 @@ function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
 	switch (keyBoardCmdStr) {
 		case 'ArrowUp':
 		case 'KeyZ':
-			console.log('rotate');
 			rotate(activePieceObj);
 			break;
 		case 'ArrowLeft':
@@ -176,7 +180,6 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			break;
 		case 'ArrowUp':
 		case 'KeyZ':
-			console.log('rotate');
 			rotate(activePieceObj);
 			break;
 		case 'ArrowLeft':

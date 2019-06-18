@@ -25,7 +25,7 @@ function pieceFactory() {
                 car = new rightSnakePiece();
                 break;
             default:
-                car = new iPiece();
+                car = new jPiece();
                 break;
         }
 
@@ -145,10 +145,15 @@ function iPiece() {
 function jPiece() {
     this.model = 'jPiece';
     this.color = '#000c74';
+    this.coordinates = [ // second row, middle of game board 
+        { x: 0, y: 3 },
+        { x: 1, y: 3 },
+        { x: 1, y: 4 },
+        { x: 1, y: 5 }
+    ];
+    this.horizontal = true;
+    this.rotateIndex = 1;
 
-    this.createHood = function () {
-        return jPieceHood();
-    };
 }
 
 //     []
