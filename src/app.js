@@ -25,23 +25,22 @@ function logKey(e) { keyBoardCmd = e.code; }
 document.addEventListener('keydown', logKey);
 
 var currentActivePiece = createPiece(getRandomPieceStr());
+var nextActivePiece = createPiece(getRandomPieceStr());
+
+var incomingShape = document.getElementsByClassName('incoming-shape')[0];
+incomingShape.innerHTML = JSON.stringify(nextActivePiece);
 
 function placePiece(activePieceObj) {
 	var cells = document.getElementsByClassName('cell');
+	var pieceClass = activePieceObj.model + 'Class';
 	var boardObject = generateBoardObject(cells);
 	var coords = activePieceObj.coordinates;
 
 	for (var i = 0; i < coords.length; i++) {
 		let xPos = coords[i].x;
 		let yPos = coords[i].y;
-
-
-
 		let posNumber = boardObject[xPos][yPos].position;
-		cells[posNumber].classList.add(activePieceObj.model + 'Class');
-		// if (xPos === lastRow) {
-		// 	console.log('red')
-		// }
+		cells[posNumber].classList.add(pieceClass);
 	}
 }
 
@@ -213,6 +212,23 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 	getLastSecondSlide(activePieceObj, keyBoardCmd);
 	moveDown(activePieceObj);
 	placePiece(activePieceObj);
+
+
+	// check bottom border 
+	for (var o = 0; o < activePieceObj.coordinates.length; o++) {
+		if (activePieceObj.coordinates[o].x === lastRow) {
+			let currentPieceClass = activePieceObj.model + 'Class';
+			let elems = document.getElementsByClassName(currentPieceClass);
+			for (var c = 0; c < elems.length; c++) {
+				elems[c].classList.add('fixed');
+				elems[c].style.backgroundColor = activePieceObj.color;
+			}
+			currentActivePiece = nextActivePiece;
+			nextActivePiece = createPiece(getRandomPieceStr());
+			incomingShape.innerHTML = JSON.stringify(nextActivePiece);
+		}
+	}
+
 	moves++;
 	keyBoardCmd = '';
 

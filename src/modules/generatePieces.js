@@ -243,13 +243,13 @@ function rightSnakePieceHood() {
 
 // initialize pieces
 function getRandomPieceStr() {
-    var pieces = shuffle(['iPiece', 'jPiece', 'lPiece', 'oPiece', 'rightSnakePiece', 'tPiece', 'leftSnakePiece']);
+    //  var pieces = shuffle(['iPiece', 'jPiece', 'lPiece', 'oPiece', 'rightSnakePiece', 'tPiece', 'leftSnakePiece']);
+    var pieces = shuffle(['iPiece', 'jPiece']);
     return shuffle(pieces)[0];
 }
 
 function createPiece(pieceStr) {
     var factory = new pieceFactory();
-    // return factory.createPiece(pieceStr);
-    return factory.createPiece('iPiece');
+    return factory.createPiece(pieceStr);
 }
 export { createPiece, pieceFactory, getRandomPieceStr }; 
