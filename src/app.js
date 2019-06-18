@@ -47,6 +47,13 @@ function placePiece(activePieceObj) {
 	}
 }
 
+function removePreviousPieces(activePieceObj) {
+	var cells = document.getElementsByClassName('cell');
+	for (var i = 0; i < cells.length; i++) {
+		cells[i].classList.remove(activePieceObj.model + 'Class');
+	}
+}
+
 function moveDown(activePieceObj) {
 	let coords = activePieceObj.coordinates;
 	console.log(coords);
@@ -57,7 +64,6 @@ function moveDown(activePieceObj) {
 
 function moveLeft(activePieceObj) {
 	let coords = activePieceObj.coordinates;
-	console.log(coords);
 	for (var i = 0; i < coords.length; i++) {
 		coords[i].y = coords[i].y - 1;
 	}
@@ -65,7 +71,6 @@ function moveLeft(activePieceObj) {
 
 function moveRight(activePieceObj) {
 	let coords = activePieceObj.coordinates;
-	console.log(coords);
 	for (var i = 0; i < coords.length; i++) {
 		coords[i].y = coords[i].y + 1;
 	}
@@ -117,8 +122,8 @@ function rotateRight(activePieceObj) {
 			}
 
 			if (i === 2) {
-				xPos = xPos + - 1;
-				yPos = yPos + - 1;
+				xPos = xPos - 1;
+				yPos = yPos - 1;
 
 			}
 
@@ -133,13 +138,87 @@ function rotateRight(activePieceObj) {
 	}
 
 	if (activePieceObj.horizontal === true) {
-
 		activePieceObj.horizontal = false;
 	} else {
+		let newCoords = activePieceObj.coordinates;
+		for (var i = 0; i < newCoords.length; i++) {
+			newCoords[i].x = newCoords[i].x - 1;
+		}
 		activePieceObj.coordinates.reverse();
 		activePieceObj.horizontal = true;
 	}
 }
+
+// function rotateLeft(activePieceObj) {
+// 	let coords = activePieceObj.coordinates;
+// 	activePieceObj.rotateIndex = 2;
+// 	for (var i = 0; i < coords.length; i++) {
+// 		let xPos = coords[i].x;
+// 		let yPos = coords[i].y;
+
+// 		if (activePieceObj.horizontal === true) {
+// 			if (i === 0) {
+// 				xPos = xPos - 1;
+// 				yPos = yPos + 1;
+// 			}
+
+// 			if (i === 1) {
+// 				xPos = xPos;
+// 				yPos = yPos;
+// 			}
+
+// 			if (i === 2) {
+// 				xPos = xPos + 1;
+// 				yPos = yPos - 1;
+// 			}
+
+// 			if (i === 3) {
+// 				xPos = xPos + 2;
+// 				yPos = yPos - 2;
+// 			}
+
+// 			coords[i].x = xPos;
+// 			coords[i].y = yPos;
+
+
+// 		}
+
+// 		if (activePieceObj.horizontal === false) {
+// 			if (i === 0) {
+// 				xPos = xPos + 1;
+// 				yPos = yPos + 1;
+// 			}
+
+// 			if (i === 1) {
+
+// 				xPos = xPos;
+// 				yPos = yPos;
+// 			}
+
+// 			if (i === 2) {
+// 				xPos = xPos + - 1;
+// 				yPos = yPos + - 1;
+
+// 			}
+
+// 			if (i === 3) {
+// 				xPos = xPos - 2;
+// 				yPos = yPos - 2;
+// 			}
+
+// 			coords[i].x = xPos + 1;
+// 			coords[i].y = yPos + 1;
+// 		}
+// 	}
+
+// 	if (activePieceObj.horizontal === true) {
+
+// 		activePieceObj.horizontal = false;
+// 	} else {
+// 		activePieceObj.coordinates.reverse();
+// 		activePieceObj.horizontal = true;
+// 	}
+// }
 
 var moves = 0;
 if (moves === 0) {
@@ -148,6 +227,8 @@ if (moves === 0) {
 
 // movement function 
 function pieceMovement(activePieceObj, keyBoardCmdStr) {
+
+
 
 	switch (keyBoardCmdStr) {
 		case 'ArrowDown':
@@ -168,6 +249,7 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			rotateRight(activePieceObj);
 		case 'KeyZ':
 			console.log('rotate left');
+			//rotateLeft(activePieceObj);
 			break;
 		case 'ArrowLeft':
 			moveLeft(activePieceObj);
@@ -195,6 +277,7 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 	}
 
 	// moveDown(activePieceObj);
+	removePreviousPieces(activePieceObj);
 	moveDown(activePieceObj);
 	placePiece(activePieceObj);
 	moves++;
@@ -212,8 +295,6 @@ var btn;
 function myTimer() {
 	timeStamp = + new Date;
 	pieceMovement(currentActivePiece, keyBoardCmd);
-	// console.log(timeStamp)
-	// console.log(timeStamp);
 }
 
 function toggleTimer() {
