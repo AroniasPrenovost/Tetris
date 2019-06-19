@@ -34,8 +34,15 @@ function drawIncomingShape(obj) {
 	console.log(obj)
 	let spots = [];
 	for (var h = 0; h < obj.coordinates.length; h++) {
-		spots.push(obj.coordinates[h].y += 5	);
+		if (h === 0) {
+			if (obj.coordinates[h].x < obj.coordinates[h + 1].x) {
+				spots.push(obj.coordinates[h].x += 2);
+			}
+		}
+		spots.push(obj.coordinates[h].y += 5);
 	}
+	spots.splice(1, 1);
+	console.log(spots)
 	let incomingShapeContainer = document.getElementsByClassName('incoming-shape')[0];
 	let table = document.createElement('TABLE');
 	table.border = '1';
