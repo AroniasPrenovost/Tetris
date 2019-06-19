@@ -33,16 +33,8 @@ drawIncomingShape(nextActivePiece);
 function drawIncomingShape(obj) {
 	console.log(obj)
 	let spots = [];
-	for (var h = 0; h < obj.coordinates.length; h++) {
-		if (h === 0) {
-			if (obj.coordinates[h].x < obj.coordinates[h + 1].x) {
-				spots.push(obj.coordinates[h].x += 2);
-			}
-		}
-		spots.push(obj.coordinates[h].y += 5);
-	}
-	spots.splice(1, 1);
-	console.log(spots)
+	var previews = document.getElementsByClassName('preview');
+	var boardObject = generateBoardObject(previews);
 	let incomingShapeContainer = document.getElementsByClassName('incoming-shape')[0];
 	let table = document.createElement('TABLE');
 	table.border = '1';
@@ -64,14 +56,19 @@ function drawIncomingShape(obj) {
 		incomingShapeContainer.removeChild(incomingShapeContainer.firstChild);
 	}
 	incomingShapeContainer.appendChild(table);
-
-	var previews = document.getElementsByClassName('preview');
-	for (var k = 0; k < previews.length; k++) {
-		for (var c = 0; c < spots.length; c++) {
-			if (k === spots[c]) {
-				previews[k].style.backgroundColor = 'red';
-			}
-		}
+	if (obj.model === 'jPiece') {
+		obj.coordinates = [ // second row, middle of game board 
+			{ x: 1, y: 3 },
+			{ x: 1, y: 4 },
+			{ x: 1, y: 5 },
+			{ x: 0, y: 7 }
+		];
+	}
+	for (var h = 0; h < obj.coordinates.length; h++) {
+		let xPos = obj.coordinates[h].x;
+		let yPos = obj.coordinates[h].y;
+		let posNumber = boardObject[xPos][yPos].position;
+		previews[posNumber].style.backgroundColor = 'red';
 	}
 }
 
