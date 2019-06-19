@@ -31,7 +31,6 @@ drawIncomingShape(nextActivePiece);
 
 // Constructor design pattern 
 function drawIncomingShape(obj) {
-	console.log(obj)
 	let spots = [];
 	var previews = document.getElementsByClassName('preview');
 	var boardObject = generateBoardObject(previews);
@@ -56,20 +55,13 @@ function drawIncomingShape(obj) {
 		incomingShapeContainer.removeChild(incomingShapeContainer.firstChild);
 	}
 	incomingShapeContainer.appendChild(table);
-	if (obj.model === 'jPiece') {
-		obj.coordinates = [ // second row, middle of game board 
-			{ x: 1, y: 3 },
-			{ x: 1, y: 4 },
-			{ x: 1, y: 5 },
-			{ x: 0, y: 7 }
-		];
-	}
 	for (var h = 0; h < obj.coordinates.length; h++) {
 		let xPos = obj.coordinates[h].x;
 		let yPos = obj.coordinates[h].y;
 		let posNumber = boardObject[xPos][yPos].position;
 		previews[posNumber].style.backgroundColor = 'red';
 	}
+	spots = [];
 }
 
 
