@@ -26,9 +26,48 @@ document.addEventListener('keydown', logKey);
 
 var currentActivePiece = createPiece(getRandomPieceStr());
 var nextActivePiece = createPiece(getRandomPieceStr());
+drawIncomingShape(nextActivePiece);
 
-var incomingShape = document.getElementsByClassName('incoming-shape')[0];
-incomingShape.innerHTML = JSON.stringify(nextActivePiece);
+
+// Constructor design pattern 
+function drawIncomingShape(obj) {
+	console.log(obj)
+	let spots = [];
+	for (var h = 0; h < obj.coordinates.length; h++) {
+		spots.push(obj.coordinates[h].y += 5	);
+	}
+	let incomingShapeContainer = document.getElementsByClassName('incoming-shape')[0];
+	let table = document.createElement('TABLE');
+	table.border = '1';
+	table.id = 'incoming-shape'
+	let tableBody = document.createElement('TBODY');
+	table.appendChild(tableBody);
+	for (let i = 0; i < 4; i++) {
+		let tr = document.createElement('TR');
+		tableBody.appendChild(tr);
+		for (let j = 0; j < 6; j++) { // table row must be divisible by 10   
+			let td = document.createElement('TD');
+			td.width = '10%';
+			td.classList.add('preview');
+			tr.appendChild(td);
+		}
+	}
+
+	while (incomingShapeContainer.firstChild) {
+		incomingShapeContainer.removeChild(incomingShapeContainer.firstChild);
+	}
+	incomingShapeContainer.appendChild(table);
+
+	var previews = document.getElementsByClassName('preview');
+	for (var k = 0; k < previews.length; k++) {
+		for (var c = 0; c < spots.length; c++) {
+			if (k === spots[c]) {
+				previews[k].style.backgroundColor = 'red';
+			}
+		}
+	}
+}
+
 
 function placePiece(activePieceObj) {
 	var cells = document.getElementsByClassName('cell');
@@ -225,7 +264,9 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			}
 			currentActivePiece = nextActivePiece;
 			nextActivePiece = createPiece(getRandomPieceStr());
-			incomingShape.innerHTML = JSON.stringify(nextActivePiece);
+			//incomingShape.innerHTML = JSON.stringify(nextActivePiece);
+			drawIncomingShape(nextActivePiece);
+			return false;
 		}
 	}
 
