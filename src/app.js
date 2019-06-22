@@ -29,12 +29,20 @@ var nextActivePiece = createPiece(getRandomPieceStr());
 
 function drawIncomingShape(obj) {
 	var previews = document.getElementsByClassName('preview');
+
 	for (var v = 0; v < previews.length; v++) {
-		previews[v].style.backgroundColor = 'none';
+		previews[v].style.backgroundColor = '#ecf0f1';
+		previews[v].style.visibility = 'visible';
 	}
 	var pc = obj.previewCoords;
 	for (var c = 0; c < pc.length; c++) {
 		previews[pc[c]].style.backgroundColor = obj.color;
+	}
+	if (obj.model !== 'iPiece') {
+		var hidden = [5, 11, 17, 23];
+		for (var z = 0; z < hidden.length; z++) {
+			previews[hidden[z]].style.visibility = 'hidden';
+		}
 	}
 }
 
@@ -90,8 +98,6 @@ function rotate(activePieceObj) {
 
 			coords[i].x = xPos;
 			coords[i].y = yPos;
-
-
 		}
 
 		if (activePieceObj.horizontal === false) {
