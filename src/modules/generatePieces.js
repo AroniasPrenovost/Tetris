@@ -33,29 +33,29 @@ function pieceFactory() {
             car.printModel = function () {
                 console.log('This car model is:', car.model);
             }
-            car.rotateClockwise = function () {
-                // var piece = car.model; 
-                // console.log('This car model is:', car.model);
-            }
         }
 
+        car.moveDown = function () {
+            let coords = car.coordinates;
+            for (var i = 0; i < coords.length; i++) {
+                coords[i].x = coords[i].x + 1;
+            }
+        }
+        car.moveLeft = function () {
+            let coords = car.coordinates;
+            for (var i = 0; i < coords.length; i++) {
+                coords[i].y = coords[i].y - 1;
+            }
+        }
+        car.moveRight = function () {
+            let coords = car.coordinates;
+            for (var i = 0; i < coords.length; i++) {
+                coords[i].y = coords[i].y + 1;
+            }
+        }
         return car;
     }
 }
-
-// x + y coordinates is the initial starting spot 
-
-// counter-clockwise - keep 'bottom-left' coordinate fixed
-
-// clockwise - keep 'bottom-right' coordinate fixed 
-function rotateClockwise(coords) {
-    for (var i = 0; i < coordinates.length; i++) {
-        console.log('Something happenss');
-    }
-}
-
-
-
 
 // [][][][] 'i piece'
 // vertical: 2nd from top is fixed
@@ -70,6 +70,7 @@ function iPiece() {
         { x: 1, y: 5 },
         { x: 1, y: 6 }
     ];
+    this.previewCoords = [13, 14, 15, 16];
     this.horizontal = true;
     this.rotateIndex = 1;
     this.previousRotation = '';
@@ -151,6 +152,7 @@ function jPiece() {
         { x: 1, y: 4 },
         { x: 1, y: 5 }
     ];
+    this.previewCoords = [7, 13, 14, 15];
     this.horizontal = true;
     this.rotateIndex = 1;
 

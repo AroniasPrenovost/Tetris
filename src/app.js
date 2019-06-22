@@ -26,44 +26,19 @@ document.addEventListener('keydown', logKey);
 
 var currentActivePiece = createPiece(getRandomPieceStr());
 var nextActivePiece = createPiece(getRandomPieceStr());
-drawIncomingShape(nextActivePiece);
 
-
-// Constructor design pattern 
 function drawIncomingShape(obj) {
-	let spots = [];
 	var previews = document.getElementsByClassName('preview');
-	var boardObject = generateBoardObject(previews);
-	let incomingShapeContainer = document.getElementsByClassName('incoming-shape')[0];
-	let table = document.createElement('TABLE');
-	table.border = '1';
-	table.id = 'incoming-shape'
-	let tableBody = document.createElement('TBODY');
-	table.appendChild(tableBody);
-	for (let i = 0; i < 4; i++) {
-		let tr = document.createElement('TR');
-		tableBody.appendChild(tr);
-		for (let j = 0; j < 6; j++) { // table row must be divisible by 10   
-			let td = document.createElement('TD');
-			td.width = '10%';
-			td.classList.add('preview');
-			tr.appendChild(td);
-		}
+	for (var v = 0; v < previews.length; v++) {
+		previews[v].style.backgroundColor = 'none';
 	}
-
-	while (incomingShapeContainer.firstChild) {
-		incomingShapeContainer.removeChild(incomingShapeContainer.firstChild);
+	var pc = obj.previewCoords;
+	for (var c = 0; c < pc.length; c++) {
+		previews[pc[c]].style.backgroundColor = obj.color;
 	}
-	incomingShapeContainer.appendChild(table);
-	for (var h = 0; h < obj.coordinates.length; h++) {
-		let xPos = obj.coordinates[h].x;
-		let yPos = obj.coordinates[h].y;
-		let posNumber = boardObject[xPos][yPos].position;
-		previews[posNumber].style.backgroundColor = 'red';
-	}
-	spots = [];
 }
 
+drawIncomingShape(nextActivePiece);
 
 function placePiece(activePieceObj) {
 	var cells = document.getElementsByClassName('cell');
@@ -83,27 +58,6 @@ function removePreviousPieces(activePieceObj) {
 	var cells = document.getElementsByClassName('cell');
 	for (var i = 0; i < cells.length; i++) {
 		cells[i].classList.remove(activePieceObj.model + 'Class');
-	}
-}
-
-function moveDown(activePieceObj) {
-	let coords = activePieceObj.coordinates;
-	for (var i = 0; i < coords.length; i++) {
-		coords[i].x = coords[i].x + 1;
-	}
-}
-
-function moveLeft(activePieceObj) {
-	let coords = activePieceObj.coordinates;
-	for (var i = 0; i < coords.length; i++) {
-		coords[i].y = coords[i].y - 1;
-	}
-}
-
-function moveRight(activePieceObj) {
-	let coords = activePieceObj.coordinates;
-	for (var i = 0; i < coords.length; i++) {
-		coords[i].y = coords[i].y + 1;
 	}
 }
 
@@ -192,10 +146,10 @@ function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
 			rotate(activePieceObj);
 			break;
 		case 'ArrowLeft':
-			moveLeft(activePieceObj);
+			activePieceObj.moveLeft();
 			break;
 		case 'ArrowRight':
-			moveRight(activePieceObj);
+			activePieceObj.moveRight();
 			break;
 		default:
 			console.log('no cmd entered');
@@ -204,8 +158,6 @@ function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
 
 // movement function 
 function pieceMovement(activePieceObj, keyBoardCmdStr) {
-
-
 
 	switch (keyBoardCmdStr) {
 		case 'ArrowDown':
@@ -217,14 +169,15 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			rotate(activePieceObj);
 			break;
 		case 'ArrowLeft':
-			moveLeft(activePieceObj);
+			activePieceObj.moveLeft();
 			break;
 		case 'ArrowRight':
-			moveRight(activePieceObj);
+			activePieceObj.moveRight();
 			break;
 		case 'Space':
 			// 'hard drop' 
-			moveDown(activePieceObj);
+			// fmoveDown(activePieceObj);
+			activePieceObj.moveDown();
 			placePiece(activePieceObj);
 
 			// exit process 
@@ -242,10 +195,9 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 	}
 	keyBoardCmd = '';
 
-	// moveDown(activePieceObj);
 	removePreviousPieces(activePieceObj);
 	getLastSecondSlide(activePieceObj, keyBoardCmd);
-	moveDown(activePieceObj);
+	activePieceObj.moveDown();
 	placePiece(activePieceObj);
 
 
