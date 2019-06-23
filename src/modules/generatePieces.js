@@ -307,25 +307,39 @@ function lPiece() {
 // [][] 'o piece'
 function oPiece() {
     this.model = 'oPiece';
-
-    this.createHood = function () {
-        return oPieceHood();
-    };
+    this.color = '#6ab04c';
+    this.coordinates = [
+        { x: 0, y: 4 },
+        { x: 0, y: 5 },
+        { x: 1, y: 4 },
+        { x: 1, y: 5 }
+    ];
+    this.previewCoords = [7, 8, 13, 14];
+    this.rotate = function () {
+        return true;
+    }
 }
 
 //   [][]
 // [][]  'right snake piece'
 function rightSnakePiece() {
     this.model = 'rightSnakePiece';
-
-    this.createHood = function () {
-        return rightSnakePieceHood();
-    };
+    this.color = '#ffbe76';
+    this.coordinates = [
+        { x: 0, y: 4 },
+        { x: 0, y: 5 },
+        { x: 1, y: 3 },
+        { x: 1, y: 4 }
+    ];
+    this.previewCoords = [8, 9, 13, 14];
+    this.rotate = function () {
+        console.log('to be completed...')
+    }
 }
 
 // initialize pieces
 function getRandomPieceStr() {
-    var pieces = shuffle(['iPiece', 'jPiece' /* , 'lPiece', 'oPiece', 'rightSnakePiece', 'tPiece', 'leftSnakePiece' */]);
+    var pieces = shuffle(['iPiece', 'jPiece', 'oPiece', 'rightSnakePiece' /* , 'lPiece', 'tPiece', 'leftSnakePiece' */]);
     return shuffle(pieces)[0];
 }
 

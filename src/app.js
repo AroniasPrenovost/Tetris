@@ -44,6 +44,12 @@ function drawIncomingShape(obj) {
 			previews[hidden[z]].style.visibility = 'hidden';
 		}
 	}
+	if (obj.model === 'oPiece') {
+		var hidden = [4, 5, 10, 11, 16, 17, 22, 23];
+		for (var z = 0; z < hidden.length; z++) {
+			previews[hidden[z]].style.visibility = 'hidden';
+		}
+	}
 }
 
 drawIncomingShape(nextActivePiece);
@@ -137,7 +143,6 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			}
 			currentActivePiece = nextActivePiece;
 			nextActivePiece = createPiece(getRandomPieceStr());
-			//incomingShape.innerHTML = JSON.stringify(nextActivePiece);
 			drawIncomingShape(nextActivePiece);
 			return false;
 		}
@@ -145,7 +150,6 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 
 	moves++;
 	keyBoardCmd = '';
-
 }
 
 var myVar = setInterval(function () {
