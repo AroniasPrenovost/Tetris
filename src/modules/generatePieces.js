@@ -1,70 +1,68 @@
 import { shuffle } from './shuffle';
 
 // Abstract factory design pattern 
-// Encapsulates a group of individual factories that
-// have a common theme without specifying their concrete classes.
+// encapsulates a group of individual factories that have
+// a common theme without specifying their concrete classes.
 
 function pieceFactory() {
     this.createPiece = function (model) {
-        var car;
+        var piece;
 
         switch (model) {
             case 'iPiece':
-                car = new iPiece();
+                piece = new iPiece();
                 break;
             case 'jPiece':
-                car = new jPiece();
+                piece = new jPiece();
                 break;
             case 'lPiece':
-                car = new lPiece();
+                piece = new lPiece();
                 break;
             case 'oPiece':
-                car = new oPiece();
+                piece = new oPiece();
                 break;
             case 'rightSnakePiece':
-                car = new rightSnakePiece();
+                piece = new rightSnakePiece();
                 break;
             default:
-                car = new jPiece();
+                piece = new jPiece();
                 break;
         }
 
-        if (typeof car.printModel === 'undefined') {
-            car.printModel = function () {
-                console.log('This car model is:', car.model);
+        if (typeof piece.printModel === 'undefined') {
+            piece.printModel = function () {
+                console.log('This piece model is:', piece.model);
             }
         }
 
-        car.moveDown = function () {
-            let coords = car.coordinates;
+        piece.moveDown = function () {
+            let coords = piece.coordinates;
             for (var i = 0; i < coords.length; i++) {
                 coords[i].x = coords[i].x + 1;
             }
         }
-        car.moveLeft = function () {
-            let coords = car.coordinates;
+        piece.moveLeft = function () {
+            let coords = piece.coordinates;
             for (var i = 0; i < coords.length; i++) {
                 coords[i].y = coords[i].y - 1;
             }
         }
-        car.moveRight = function () {
-            let coords = car.coordinates;
+        piece.moveRight = function () {
+            let coords = piece.coordinates;
             for (var i = 0; i < coords.length; i++) {
                 coords[i].y = coords[i].y + 1;
             }
         }
-        return car;
+        return piece;
     }
 }
 
 // [][][][] 'i piece'
-// vertical: 2nd from top is fixed
-// horizontal: 
 function iPiece() {
     this.model = 'iPiece';
     this.color = '#6aedef';
     this.length = 4;
-    this.coordinates = [ // second row, middle of game board 
+    this.coordinates = [
         { x: 1, y: 3 },
         { x: 1, y: 4 },
         { x: 1, y: 5 },
@@ -72,73 +70,76 @@ function iPiece() {
     ];
     this.previewCoords = [13, 14, 15, 16];
     this.horizontal = true;
-    this.rotateIndex = 1;
-    this.previousRotation = '';
+    this.rotate = function () {
+        let coords = this.coordinates;
+        for (var i = 0; i < coords.length; i++) {
+            let xPos = coords[i].x;
+            let yPos = coords[i].y;
 
-    this.remove = function (arg1) {
-        // // removes it's class from coords
-        // var coords = this.coordinates;
-        // var cells = document.getElementsByClassName('cell'); 
-        // for (var i = 0; i < coords.length; i++) {
-        //      var xPos = coords[i].x;
-        //     var yPos = coords[i].y;
-
-        // cells[arg1[xPos][yPos].position].classList.remove('iPieceClass')
-    }
-
-    this.rotateCoordinates = function (arg) {
-        this.previousRotation = arg;
-        if (arg === 'clockwise') {
-
-
-
-            for (var i = 0; i < this.coordinates.length; i++) {
-
-                var xPos = this.coordinates[i].x;
-                var yPos = this.coordinates[i].y;
-
-                if (this.horizontal && i !== this.horizontalIndex) {
-                    this.coordinates[i].x = xPos - (1 * (i - this.horizontalIndex));
-                    this.coordinates[i].y = yPos + (1 * (i - this.horizontalIndex));
+            if (this.horizontal === true) {
+                if (i === 0) {
+                    xPos = xPos - 1;
+                    yPos = yPos + 1;
                 }
 
-                if (!this.horizontal && i !== this.verticalIndex) {
-                    this.coordinates[i].x = xPos - (1 * (i - this.verticalIndex));
-                    this.coordinates[i].y = yPos + (1 * (i - this.verticalIndex));
+                if (i === 1) {
+                    xPos = xPos;
+                    yPos = yPos;
                 }
 
+                if (i === 2) {
+                    xPos = xPos + 1;
+                    yPos = yPos - 1;
+                }
 
+                if (i === 3) {
+                    xPos = xPos + 2;
+                    yPos = yPos - 2;
+                }
 
-                // console.log(xPos + ' - ' + yPos)
-
-                // if (i === 0) {
-                //     xPos = xPos-1;
-                //     yPos = yPos+1;
-                // } else if (i === 1) {
-                //     xPos = xPos;
-                //     yPos = yPos;
-                // } else if(i === 2) {
-                //     xPos = xPos+1;
-                //     yPos = yPos-1;
-                // } else {
-                //     xPos = xPos+2;
-                //     yPos = yPos+2;
-                // }
-
-                // coords[i].x = xPos;
-                // coords[i].y = yPos + 1;
-
-
+                coords[i].x = xPos;
+                coords[i].y = yPos;
             }
 
-            // console.log(coords)
-            // this.coordinates = rotateClockwise(this.coordinates); 
-        } else {
-            console.log('rotate counter-clockwise');
-            // this.coordinates = rotateCounterClockwise(this.coordinates); 
+            if (this.horizontal === false) {
+                if (i === 0) {
+                    xPos = xPos + 1;
+                    yPos = yPos + 1;
+                }
+
+                if (i === 1) {
+
+                    xPos = xPos;
+                    yPos = yPos;
+                }
+
+                if (i === 2) {
+                    xPos = xPos - 1;
+                    yPos = yPos - 1;
+
+                }
+
+                if (i === 3) {
+                    xPos = xPos - 2;
+                    yPos = yPos - 2;
+                }
+
+                coords[i].x = xPos + 1;
+                coords[i].y = yPos + 1;
+            }
         }
-        return this.coordinates;
-    };
+
+        if (this.horizontal === true) {
+            this.horizontal = false;
+        } else {
+            let newCoords = this.coordinates;
+            for (var i = 0; i < newCoords.length; i++) {
+                newCoords[i].x = newCoords[i].x - 1;
+            }
+            this.coordinates.reverse();
+            this.horizontal = true;
+        }
+    }
 }
 
 // []
@@ -146,7 +147,7 @@ function iPiece() {
 function jPiece() {
     this.model = 'jPiece';
     this.color = '#000c74';
-    this.coordinates = [ // second row, middle of game board 
+    this.coordinates = [
         { x: 0, y: 3 },
         { x: 1, y: 3 },
         { x: 1, y: 4 },
@@ -154,8 +155,142 @@ function jPiece() {
     ];
     this.previewCoords = [7, 13, 14, 15];
     this.horizontal = true;
-    this.rotateIndex = 1;
+    this.orientRight = true;
+    this.rotate = function () {
+        let coords = this.coordinates;
+        for (var i = 0; i < coords.length; i++) {
+            let xPos = coords[i].x;
+            let yPos = coords[i].y;
 
+            // position 1
+            if (this.horizontal === true && this.orientRight === true) {
+                if (i === 0) {
+                    xPos = xPos + 1;
+                    yPos = yPos + 1;
+                }
+
+                if (i === 1) {
+                    xPos = xPos + 0;
+                    yPos = yPos + 2;
+                }
+
+                if (i === 2) {
+                    xPos = xPos + 1;
+                    yPos = yPos;
+                }
+
+                if (i === 3) {
+                    xPos = xPos + 2;
+                    yPos = yPos - 1;
+                }
+
+                coords[i].x = xPos - 1;
+                coords[i].y = yPos;
+
+                if (i === 3) {
+                    this.horizontal = false;
+                    return false;
+                }
+            }
+
+            // position 2
+            if (this.horizontal === false && this.orientRight === true) {
+                if (i === 0) {
+                    xPos = xPos + 1;
+                    yPos = yPos + 1;
+                }
+
+                if (i === 1) {
+                    xPos = xPos;
+                    yPos = yPos;
+                }
+
+                if (i === 2) {
+                    xPos = xPos - 1;
+                    yPos = yPos;
+                }
+
+                if (i === 3) {
+                    xPos = xPos - 2;
+                    yPos = yPos - 1;
+                }
+
+                coords[i].x = xPos;
+                coords[i].y = yPos;
+
+                if (i === 3) {
+                    this.horizontal = true;
+                    this.orientRight = false;
+                    return false;
+                }
+            }
+
+            // position 3
+            if (this.horizontal === true && this.orientRight === false) {
+                if (i === 0) {
+                    xPos = xPos - 1;
+                    yPos = yPos - 2;
+                }
+
+                if (i === 1) {
+                    xPos = xPos;
+                    yPos = yPos - 1;
+                }
+
+                if (i === 2) {
+                    xPos = xPos - 1;
+                    yPos = yPos;
+
+                }
+
+                if (i === 3) {
+                    xPos = xPos - 2;
+                    yPos = yPos + 1;
+                }
+
+                coords[i].x = xPos + 1;
+                coords[i].y = yPos;
+
+                if (i === 3) {
+                    this.horizontal = false;
+                    return false;
+                }
+            }
+
+            // position 4
+            if (this.horizontal === false && this.orientRight === false) {
+                if (i === 0) {
+                    xPos = xPos - 1;
+                    yPos = yPos;
+                }
+
+                if (i === 1) {
+                    xPos = xPos;
+                    yPos = yPos - 1;
+                }
+
+                if (i === 2) {
+                    xPos = xPos + 1;
+                    yPos = yPos;
+
+                }
+
+                if (i === 3) {
+                    xPos = xPos + 2;
+                    yPos = yPos + 1;
+                }
+
+                coords[i].x = xPos - 1;
+                coords[i].y = yPos;
+
+                if (i === 3) {
+                    this.horizontal = true;
+                    this.orientRight = true;
+                    return false;
+                }
+            }
+        }
+    }
 }
 
 //     []
@@ -188,65 +323,9 @@ function rightSnakePiece() {
     };
 }
 
-// if counter clockwise 
-
-
-
-
-function iPieceHood() {
-    build = function () {
-        console.log(`Build a hood for iPiece`);
-    }
-
-    return {
-        build: build
-    }
-}
-
-function jPieceHood() {
-    build = function () {
-        console.log(`Build a hood for jPiece`);
-    }
-
-    return {
-        build: build
-    }
-}
-
-function lPieceRotate() {
-    rotate = function () {
-        console.log(`Build a hood for lPiece`);
-    }
-
-    return {
-        build: build
-    }
-}
-
-function oPieceHood() {
-    build = function () {
-        console.log(`Build a hood for oPiece`);
-    }
-
-    return {
-        build: build
-    }
-}
-
-function rightSnakePieceHood() {
-    build = function () {
-        console.log(`Build a hood for rightSnakePiece`);
-    }
-
-    return {
-        build: build
-    }
-}
-
 // initialize pieces
 function getRandomPieceStr() {
-    //  var pieces = shuffle(['iPiece', 'jPiece', 'lPiece', 'oPiece', 'rightSnakePiece', 'tPiece', 'leftSnakePiece']);
-    var pieces = shuffle(['iPiece', 'jPiece']);
+    var pieces = shuffle(['iPiece', 'jPiece' /* , 'lPiece', 'oPiece', 'rightSnakePiece', 'tPiece', 'leftSnakePiece' */]);
     return shuffle(pieces)[0];
 }
 

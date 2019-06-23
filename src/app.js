@@ -69,77 +69,6 @@ function removePreviousPieces(activePieceObj) {
 	}
 }
 
-function rotate(activePieceObj) {
-	let coords = activePieceObj.coordinates;
-	for (var i = 0; i < coords.length; i++) {
-		let xPos = coords[i].x;
-		let yPos = coords[i].y;
-
-		if (activePieceObj.horizontal === true) {
-			if (i === 0) {
-				xPos = xPos - 1;
-				yPos = yPos + 1;
-			}
-
-			if (i === 1) {
-				xPos = xPos;
-				yPos = yPos;
-			}
-
-			if (i === 2) {
-				xPos = xPos + 1;
-				yPos = yPos - 1;
-			}
-
-			if (i === 3) {
-				xPos = xPos + 2;
-				yPos = yPos - 2;
-			}
-
-			coords[i].x = xPos;
-			coords[i].y = yPos;
-		}
-
-		if (activePieceObj.horizontal === false) {
-			if (i === 0) {
-				xPos = xPos + 1;
-				yPos = yPos + 1;
-			}
-
-			if (i === 1) {
-
-				xPos = xPos;
-				yPos = yPos;
-			}
-
-			if (i === 2) {
-				xPos = xPos - 1;
-				yPos = yPos - 1;
-
-			}
-
-			if (i === 3) {
-				xPos = xPos - 2;
-				yPos = yPos - 2;
-			}
-
-			coords[i].x = xPos + 1;
-			coords[i].y = yPos + 1;
-		}
-	}
-
-	if (activePieceObj.horizontal === true) {
-		activePieceObj.horizontal = false;
-	} else {
-		let newCoords = activePieceObj.coordinates;
-		for (var i = 0; i < newCoords.length; i++) {
-			newCoords[i].x = newCoords[i].x - 1;
-		}
-		activePieceObj.coordinates.reverse();
-		activePieceObj.horizontal = true;
-	}
-}
-
 var moves = 0;
 if (moves === 0) {
 	placePiece(currentActivePiece);
@@ -149,7 +78,8 @@ function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
 	switch (keyBoardCmdStr) {
 		case 'ArrowUp':
 		case 'KeyZ':
-			rotate(activePieceObj);
+			// rotate(activePieceObj);
+			activePieceObj.rotate();
 			break;
 		case 'ArrowLeft':
 			activePieceObj.moveLeft();
@@ -167,12 +97,11 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 
 	switch (keyBoardCmdStr) {
 		case 'ArrowDown':
-			// clear interval 
-			// to do... 
 			break;
 		case 'ArrowUp':
 		case 'KeyZ':
-			rotate(activePieceObj);
+			// rotate(activePieceObj);
+			activePieceObj.rotate();
 			break;
 		case 'ArrowLeft':
 			activePieceObj.moveLeft();
@@ -181,17 +110,8 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			activePieceObj.moveRight();
 			break;
 		case 'Space':
-			// 'hard drop' 
-			// fmoveDown(activePieceObj);
 			activePieceObj.moveDown();
 			placePiece(activePieceObj);
-
-			// exit process 
-			// to do... 
-
-			// 1. keyBoardCmd = 'Space'
-			// 2. exit process
-
 			break;
 		case 'Escape':
 			timerBtn.click();
@@ -205,7 +125,6 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 	getLastSecondSlide(activePieceObj, keyBoardCmd);
 	activePieceObj.moveDown();
 	placePiece(activePieceObj);
-
 
 	// check bottom border 
 	for (var o = 0; o < activePieceObj.coordinates.length; o++) {

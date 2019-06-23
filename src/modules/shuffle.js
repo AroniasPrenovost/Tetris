@@ -7,4 +7,4 @@ function shuffle(a) {
 	return a;
 }
 
-export {shuffle};
+export { shuffle };
