@@ -325,6 +325,7 @@ function oPiece() {
 function rightSnakePiece() {
     this.model = 'rightSnakePiece';
     this.color = '#ffbe76';
+    this.horizontal = true;
     this.coordinates = [
         { x: 0, y: 4 },
         { x: 0, y: 5 },
@@ -333,7 +334,79 @@ function rightSnakePiece() {
     ];
     this.previewCoords = [8, 9, 13, 14];
     this.rotate = function () {
-        console.log('to be completed...')
+        let coords = this.coordinates;
+        for (var i = 0; i < coords.length; i++) {
+            let xPos = coords[i].x;
+            let yPos = coords[i].y;
+
+            if (this.horizontal === true) {
+
+                if (i === 0) {
+                    xPos = xPos;
+                    yPos = yPos;
+                }
+
+                if (i === 1) {
+                    xPos = xPos + 1;
+                    yPos = yPos - 1;
+                }
+
+                if (i === 2) {
+                    xPos = xPos - 2;
+                    yPos = yPos;
+                }
+
+                if (i === 3) {
+                    xPos = xPos - 1;
+                    yPos = yPos - 1;
+                }
+
+                coords[i].x = xPos;
+                coords[i].y = yPos + 1;
+            }
+
+            if (this.horizontal === false) {
+
+                if (i === 0) {
+                    xPos = xPos - 1;
+                    yPos = yPos;
+                }
+
+                if (i === 1) {
+                    xPos = xPos - 2;
+                    yPos = yPos - 1;
+                }
+
+                if (i === 2) {
+                    xPos = xPos + 1;
+                    yPos = yPos;
+                }
+
+                if (i === 3) {
+                    xPos = xPos;
+                    yPos = yPos - 1;
+                }
+
+                coords[i].x = xPos;
+                coords[i].y = yPos;
+
+                if (i === 3) {
+                    // replace 2 w/ 1, 4 w/ 3 
+                    let itemOne = (this.coordinates)[0];
+                    (this.coordinates).shift();
+                    (this.coordinates).splice(1, 0, itemOne);
+                    let lastItem = (this.coordinates)[3];
+                    (this.coordinates).pop();
+                    (this.coordinates).splice(2, 0, lastItem);
+                }
+            }
+        }
+
+        if (this.horizontal === true) {
+            this.horizontal = false;
+        } else {
+            this.horizontal = true;
+        }
     }
 }
 
