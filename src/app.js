@@ -17,7 +17,7 @@ var columns = document.getElementsByClassName('column');
 var tableCells = document.getElementsByClassName('cell').length;
 var height = document.getElementById('table').rows.length;
 var rowLength = Math.ceil((tableCells / height)); // should be divisible by 10 
-var lastRow = 21;
+
 
 // captures user input 
 var keyBoardCmd = '';
@@ -94,7 +94,7 @@ function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
 			activePieceObj.moveRight();
 			break;
 		default:
-			console.log('no cmd entered');
+		// console.log('no cmd entered');
 	}
 }
 
@@ -106,7 +106,6 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			break;
 		case 'ArrowUp':
 		case 'KeyZ':
-			// rotate(activePieceObj);
 			activePieceObj.rotate();
 			break;
 		case 'ArrowLeft':
@@ -123,33 +122,28 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			timerBtn.click();
 			break;
 		default:
-			console.log('no cmd entered');
+		// console.log('no cmd entered');
 	}
 	keyBoardCmd = '';
 
 	removePreviousPieces(activePieceObj);
 	getLastSecondSlide(activePieceObj, keyBoardCmd);
+
+	// check for downward collision w/ 'fixed' piece
+
+
 	activePieceObj.moveDown();
 	placePiece(activePieceObj);
 
-	// check bottom border 
-	for (var o = 0; o < activePieceObj.coordinates.length; o++) {
-		if (activePieceObj.coordinates[o].x === lastRow) {
-			let currentPieceClass = activePieceObj.model + 'Class';
-			let elems = document.getElementsByClassName(currentPieceClass);
-			for (var c = 0; c < elems.length; c++) {
-				elems[c].classList.add('fixed');
-				elems[c].style.backgroundColor = activePieceObj.color;
-			}
-			currentActivePiece = nextActivePiece;
-			nextActivePiece = createPiece(getRandomPieceStr());
-			drawIncomingShape(nextActivePiece);
-			return false;
-		}
+	// check bottom board boundary. if true, fix piece 
+	if (activePieceObj.checkBottomRowBoundary()) {
+		moves++;
+		keyBoardCmd = '';
+	} else {
+		currentActivePiece = nextActivePiece;
+		nextActivePiece = createPiece(getRandomPieceStr());
+		drawIncomingShape(nextActivePiece);
 	}
-
-	moves++;
-	keyBoardCmd = '';
 }
 
 var myVar = setInterval(function () {

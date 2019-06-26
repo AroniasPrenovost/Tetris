@@ -1,4 +1,5 @@
 import { shuffle } from './shuffle';
+import { trimExt } from 'upath';
 
 // Abstract factory design pattern 
 // encapsulates a group of individual factories that have
@@ -35,6 +36,12 @@ function pieceFactory() {
             }
         }
 
+        piece.moveUp = function () {
+            let coords = piece.coordinates;
+            for (var i = 0; i < coords.length; i++) {
+                coords[i].x = coords[i].x - 1;
+            }
+        }
         piece.moveDown = function () {
             let coords = piece.coordinates;
             for (var i = 0; i < coords.length; i++) {
@@ -52,6 +59,24 @@ function pieceFactory() {
             for (var i = 0; i < coords.length; i++) {
                 coords[i].y = coords[i].y + 1;
             }
+        }
+        piece.checkBottomRowBoundary = function () {
+            let lastRow = 21;
+            let coords = piece.coordinates;
+            let currentPieceClass = piece.model + 'Class';
+            let elems = document.getElementsByClassName(currentPieceClass);
+            for (var i = 0; i < coords.length; i++) {
+                if (coords[i].x === lastRow) {
+                    for (var c = 0; c < elems.length; c++) {
+                        elems[c].classList.add('fixed');
+                        elems[c].style.backgroundColor = piece.color;
+                        elems[c].classList.remove(currentPieceClass);
+                        c--;
+                    }
+                    return false;
+                }
+            }
+            return true;
         }
         return piece;
     }
