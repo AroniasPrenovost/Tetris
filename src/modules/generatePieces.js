@@ -1,5 +1,6 @@
 import { shuffle } from './shuffle';
 import { trimExt } from 'upath';
+import { generateBoardObject } from './generateTable';
 
 // Abstract factory design pattern 
 // encapsulates a group of individual factories that have
@@ -58,6 +59,42 @@ function pieceFactory() {
             let coords = piece.coordinates;
             for (var i = 0; i < coords.length; i++) {
                 coords[i].y = coords[i].y + 1;
+            }
+        }
+        piece.checkDownwardPieceCollision = function () {
+
+            var elems = document.getElementsByClassName('cell');
+            var boardObject = generateBoardObject(elems);
+            var coords = piece.coordinates;
+            var collisionFlag = false;
+
+            // jump forward 
+            for (var i = 0; i < coords.length; i++) {
+                coords[i].x = coords[i].x + 1;
+            }
+
+            for (var i = 0; i < coords.length; i++) {
+                let xPos = coords[i].x;
+                let yPos = coords[i].y;
+                if (boardObject[xPos]) {
+                    let posNumber = boardObject[xPos][yPos].position;
+                    // console.log(elems[posNumber].classList);
+                    if (elems[posNumber].classList.contains('fixed')) {
+                        collisionFlag = true;
+                        i = coords.length;
+                    }
+                }
+            }
+
+            // jump back  
+            for (var i = 0; i < coords.length; i++) {
+                coords[i].x = coords[i].x - 1;
+            }
+
+            if (collisionFlag) {
+                return true;
+            } else {
+                return false;
             }
         }
         piece.checkBottomRowBoundary = function () {
@@ -445,4 +482,5 @@ function createPiece(pieceStr) {
     var factory = new pieceFactory();
     return factory.createPiece(pieceStr);
 }
+
 export { createPiece, pieceFactory, getRandomPieceStr }; 

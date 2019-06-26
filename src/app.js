@@ -18,7 +18,6 @@ var tableCells = document.getElementsByClassName('cell').length;
 var height = document.getElementById('table').rows.length;
 var rowLength = Math.ceil((tableCells / height)); // should be divisible by 10 
 
-
 // captures user input 
 var keyBoardCmd = '';
 function logKey(e) { keyBoardCmd = e.code; }
@@ -84,7 +83,6 @@ function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
 	switch (keyBoardCmdStr) {
 		case 'ArrowUp':
 		case 'KeyZ':
-			// rotate(activePieceObj);
 			activePieceObj.rotate();
 			break;
 		case 'ArrowLeft':
@@ -129,9 +127,25 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 	removePreviousPieces(activePieceObj);
 	getLastSecondSlide(activePieceObj, keyBoardCmd);
 
-	// check for downward collision w/ 'fixed' piece
+	// check if downward movement caused collision w/ 'fixed' piece
+	if (activePieceObj.checkDownwardPieceCollision()) {
+		placePiece(activePieceObj);
+		let currentPieceClass = activePieceObj.model + 'Class';
+		let elems = document.getElementsByClassName(currentPieceClass);
+		for (var c = 0; c < elems.length; c++) {
+			elems[c].classList.add('fixed');
+			elems[c].style.backgroundColor = activePieceObj.color;
+			elems[c].classList.remove(currentPieceClass);
+			c--;
+		}
+		currentActivePiece = nextActivePiece;
+		nextActivePiece = createPiece(getRandomPieceStr());
+		drawIncomingShape(nextActivePiece);
+		console.log('collision');
+		return false;
+	}
 
-
+	// proceed as expected 
 	activePieceObj.moveDown();
 	placePiece(activePieceObj);
 

@@ -47,7 +47,7 @@ function generateBoardObject(args) {
 			row = [];
 		}
 	}
-	return board; s
+	return board;
 }
 
 
