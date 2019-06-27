@@ -52,21 +52,30 @@ function pieceFactory() {
         piece.moveLeft = function () {
             let coords = piece.coordinates;
             for (var i = 0; i < coords.length; i++) {
+                if (coords[i].y === 0) {
+                    return false;
+                }
+            }
+            for (var i = 0; i < coords.length; i++) {
                 coords[i].y = coords[i].y - 1;
             }
         }
         piece.moveRight = function () {
             let coords = piece.coordinates;
             for (var i = 0; i < coords.length; i++) {
+                if (coords[i].y === 9) {
+                    return false;
+                }
+            }
+            for (var i = 0; i < coords.length; i++) {
                 coords[i].y = coords[i].y + 1;
             }
         }
         piece.checkDownwardPieceCollision = function () {
-
-            var elems = document.getElementsByClassName('cell');
-            var boardObject = generateBoardObject(elems);
-            var coords = piece.coordinates;
-            var collisionFlag = false;
+            let elems = document.getElementsByClassName('cell');
+            let boardObject = generateBoardObject(elems);
+            let coords = piece.coordinates;
+            let collisionFlag = false;
 
             // jump forward 
             for (var i = 0; i < coords.length; i++) {
@@ -78,7 +87,6 @@ function pieceFactory() {
                 let yPos = coords[i].y;
                 if (boardObject[xPos]) {
                     let posNumber = boardObject[xPos][yPos].position;
-                    // console.log(elems[posNumber].classList);
                     if (elems[posNumber].classList.contains('fixed')) {
                         collisionFlag = true;
                         i = coords.length;
