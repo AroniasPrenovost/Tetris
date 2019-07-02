@@ -141,7 +141,6 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 		currentActivePiece = nextActivePiece;
 		nextActivePiece = createPiece(getRandomPieceStr());
 		drawIncomingShape(nextActivePiece);
-		console.log('collision');
 		return false;
 	}
 

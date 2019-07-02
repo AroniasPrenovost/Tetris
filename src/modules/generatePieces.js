@@ -50,25 +50,67 @@ function pieceFactory() {
             }
         }
         piece.moveLeft = function () {
+            let elems = document.getElementsByClassName('cell');
+            let boardObject = generateBoardObject(elems);
             let coords = piece.coordinates;
+
+            // check grid boundary 
             for (var i = 0; i < coords.length; i++) {
                 if (coords[i].y === 0) {
                     return false;
                 }
             }
+
+            // move to left to check piece collision
             for (var i = 0; i < coords.length; i++) {
                 coords[i].y = coords[i].y - 1;
             }
+
+            // if collision, move piece back and exit 
+            for (var i = 0; i < coords.length; i++) {
+                let xPos = coords[i].x;
+                let yPos = coords[i].y;
+                if (boardObject[xPos]) {
+                    let posNumber = boardObject[xPos][yPos].position;
+                    if (elems[posNumber].classList.contains('fixed')) {
+                        for (var i = 0; i < coords.length; i++) {
+                            coords[i].y = coords[i].y + 1;
+                        }
+                        return false;
+                    }
+                }
+            }
         }
         piece.moveRight = function () {
+            let elems = document.getElementsByClassName('cell');
+            let boardObject = generateBoardObject(elems);
             let coords = piece.coordinates;
+
+            // check grid boundary 
             for (var i = 0; i < coords.length; i++) {
                 if (coords[i].y === 9) {
                     return false;
                 }
             }
+
+            // move to left to check piece collision
             for (var i = 0; i < coords.length; i++) {
                 coords[i].y = coords[i].y + 1;
+            }
+
+            // if collision, move piece back and exit 
+            for (var i = 0; i < coords.length; i++) {
+                let xPos = coords[i].x;
+                let yPos = coords[i].y;
+                if (boardObject[xPos]) {
+                    let posNumber = boardObject[xPos][yPos].position;
+                    if (elems[posNumber].classList.contains('fixed')) {
+                        for (var i = 0; i < coords.length; i++) {
+                            coords[i].y = coords[i].y - 1;
+                        }
+                        return false;
+                    }
+                }
             }
         }
         piece.checkDownwardPieceCollision = function () {
