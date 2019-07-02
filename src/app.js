@@ -1,5 +1,6 @@
 import { generateGameGrid, generateBoardObject } from './modules/generateTable';
 import { createPiece, getRandomPieceStr } from './modules/generatePieces';
+import { validateRows } from './modules/validateRows';
 
 // initialize grid and play grid object 
 generateGameGrid();
@@ -113,8 +114,10 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			activePieceObj.moveRight();
 			break;
 		case 'Space':
-			activePieceObj.moveDown();
-			placePiece(activePieceObj);
+			if (activePieceObj.disableSpaceFallMovemenet()) {
+				activePieceObj.moveDown();
+				placePiece(activePieceObj);
+			}
 			break;
 		case 'Escape':
 			timerBtn.click();
@@ -141,6 +144,8 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 		currentActivePiece = nextActivePiece;
 		nextActivePiece = createPiece(getRandomPieceStr());
 		drawIncomingShape(nextActivePiece);
+
+		validateRows();
 		return false;
 	}
 
@@ -148,10 +153,13 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 	activePieceObj.moveDown();
 	placePiece(activePieceObj);
 
+
+
 	// check bottom board boundary. if true, fix piece 
 	if (activePieceObj.checkBottomRowBoundary()) {
 		moves++;
 		keyBoardCmd = '';
+		validateRows();
 	} else {
 		currentActivePiece = nextActivePiece;
 		nextActivePiece = createPiece(getRandomPieceStr());
