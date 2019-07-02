@@ -1,6 +1,8 @@
 import { generateGameGrid, generateBoardObject } from './modules/generateTable';
 import { createPiece, getRandomPieceStr } from './modules/generatePieces';
 import { validateRows } from './modules/validateRows';
+import { drawIncomingShape } from './modules/drawIncomingShape';
+import { placePiece, removePreviousPieces } from './modules/placePiece';
 
 // initialize grid and play grid object 
 generateGameGrid();
@@ -27,53 +29,7 @@ document.addEventListener('keydown', logKey);
 var currentActivePiece = createPiece(getRandomPieceStr());
 var nextActivePiece = createPiece(getRandomPieceStr());
 
-function drawIncomingShape(obj) {
-	var previews = document.getElementsByClassName('preview');
-
-	for (var v = 0; v < previews.length; v++) {
-		previews[v].style.backgroundColor = '#ecf0f1';
-		previews[v].style.visibility = 'visible';
-	}
-	var pc = obj.previewCoords;
-	for (var c = 0; c < pc.length; c++) {
-		previews[pc[c]].style.backgroundColor = obj.color;
-	}
-	if (obj.model !== 'iPiece') {
-		var hidden = [5, 11, 17, 23];
-		for (var z = 0; z < hidden.length; z++) {
-			previews[hidden[z]].style.visibility = 'hidden';
-		}
-	}
-	if (obj.model === 'oPiece') {
-		var hidden = [4, 5, 10, 11, 16, 17, 22, 23];
-		for (var z = 0; z < hidden.length; z++) {
-			previews[hidden[z]].style.visibility = 'hidden';
-		}
-	}
-}
-
 drawIncomingShape(nextActivePiece);
-
-function placePiece(activePieceObj) {
-	var cells = document.getElementsByClassName('cell');
-	var pieceClass = activePieceObj.model + 'Class';
-	var boardObject = generateBoardObject(cells);
-	var coords = activePieceObj.coordinates;
-
-	for (var i = 0; i < coords.length; i++) {
-		let xPos = coords[i].x;
-		let yPos = coords[i].y;
-		let posNumber = boardObject[xPos][yPos].position;
-		cells[posNumber].classList.add(pieceClass);
-	}
-}
-
-function removePreviousPieces(activePieceObj) {
-	var cells = document.getElementsByClassName('cell');
-	for (var i = 0; i < cells.length; i++) {
-		cells[i].classList.remove(activePieceObj.model + 'Class');
-	}
-}
 
 var moves = 0;
 if (moves === 0) {
@@ -93,7 +49,6 @@ function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
 			activePieceObj.moveRight();
 			break;
 		default:
-		// console.log('no cmd entered');
 	}
 }
 
