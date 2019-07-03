@@ -167,8 +167,6 @@ function pieceFactory() {
         piece.disableSpaceFallMovemenet = function () {
             let secondLastRow = 20;
             let coords = piece.coordinates;
-            let currentPieceClass = piece.model + 'Class';
-            let elems = document.getElementsByClassName(currentPieceClass);
             for (var i = 0; i < coords.length; i++) {
                 if (coords[i].x === secondLastRow) {
                     return false;
