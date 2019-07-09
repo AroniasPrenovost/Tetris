@@ -40,7 +40,9 @@ function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
 	switch (keyBoardCmdStr) {
 		case 'ArrowUp':
 		case 'KeyZ':
-			activePieceObj.rotate();
+			if (activePieceObj.checkYAxis()) {
+				activePieceObj.checkRotationCollisions(); 
+			}
 			break;
 		case 'ArrowLeft':
 			activePieceObj.moveLeft();
@@ -54,13 +56,14 @@ function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
 
 // movement function 
 function pieceMovement(activePieceObj, keyBoardCmdStr) {
-
 	switch (keyBoardCmdStr) {
 		case 'ArrowDown':
 			break;
 		case 'ArrowUp':
 		case 'KeyZ':
-			activePieceObj.rotate();
+			if (activePieceObj.checkYAxis()) {
+				activePieceObj.checkRotationCollisions(); 
+			}
 			break;
 		case 'ArrowLeft':
 			activePieceObj.moveLeft();
@@ -108,8 +111,6 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 	activePieceObj.moveDown();
 	placePiece(activePieceObj);
 
-
-
 	// check bottom board boundary. if true, fix piece 
 	if (activePieceObj.checkBottomRowBoundary()) {
 		moves++;
@@ -121,6 +122,10 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 		drawIncomingShape(nextActivePiece);
 	}
 }
+
+//														//
+// start & stop game controls //
+//														//
 
 var myVar = setInterval(function () {
 	myTimer()
