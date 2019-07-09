@@ -36,6 +36,46 @@ function pieceFactory() {
             }
         }
 
+        piece.checkRotationCollisions = function () {
+            let elems = document.getElementsByClassName('cell');
+            let boardObject = generateBoardObject(elems);
+            let coords = piece.coordinates;
+
+            // rotate once, check for collision w/ existing piece
+            piece.rotate(); 
+
+            // if collision, revert back to original piece orientation and move down 
+            for (var i = 0; i < coords.length; i++) {
+                let xPos = coords[i].x;
+                let yPos = coords[i].y;
+                if (boardObject[xPos]) {
+                    let posNumber = boardObject[xPos][yPos].position;
+                    if (elems[posNumber].classList.contains('fixed')) {
+                        for (var i = 0; i < 3; i++) {
+                            piece.rotate(); 
+                        }
+                        let coords = piece.coordinates; 
+                        for (var i = 0; i < coords.length; i++) {
+                            coords[i].x = coords[i].x + 1;
+                        }
+                    }
+                }
+            }
+        }
+        piece.checkYAxis = function () {
+            let coords = piece.coordinates; 
+            for (var i = 0; i < coords.length; i++) {
+                if (coords[i].y === 0 || coords[i].y === 9) {
+                    if (piece.model === 'iPiece' && piece.horizontal === false) {
+                        return false; 
+                    }
+                    if (piece.model === 'jPiece' && piece.horizontal === false) {
+                        return false; 
+                    }
+                }
+            }
+            return true; 
+        }
         piece.moveUp = function () {
             let coords = piece.coordinates;
             for (var i = 0; i < coords.length; i++) {
@@ -167,12 +207,48 @@ function pieceFactory() {
         piece.disableSpaceFallMovemenet = function () {
             let secondLastRow = 20;
             let coords = piece.coordinates;
+            let elems = document.getElementsByClassName('cell');
+            let boardObject = generateBoardObject(elems);
+            let collisionFlag = false;
+
+            // check 2nd to last row 
             for (var i = 0; i < coords.length; i++) {
                 if (coords[i].x === secondLastRow) {
-                    return false;
+                    collisionFlag = true; 
                 }
             }
-            return true;
+            
+            if (!collisionFlag) {
+
+                // jump forward 
+                for (var i = 0; i < coords.length; i++) {
+                    coords[i].x = coords[i].x + 1;
+                }
+
+                // check piece collision 
+                for (var i = 0; i < coords.length; i++) {
+                    let xPos = coords[i].x;
+                    let yPos = coords[i].y;
+                    if (boardObject[xPos]) {
+                        let posNumber = boardObject[xPos][yPos].position;
+                        if (elems[posNumber].classList.contains('fixed')) {
+                            collisionFlag = true; 
+                            i = coords.length; 
+                        }
+                    }
+                }
+
+                // jump back
+                for (var i = 0; i < coords.length; i++) {
+                    coords[i].x = coords[i].x - 1;
+                }
+            }
+
+            if (collisionFlag) {
+                return false;
+            } else {
+                return true;
+            }
         }
         return piece;
     }
