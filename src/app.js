@@ -3,23 +3,19 @@ import { createPiece, getRandomPieceStr } from './modules/generatePieces';
 import { validateRows } from './modules/validateRows';
 import { drawIncomingShape } from './modules/drawIncomingShape';
 import { placePiece, removePreviousPieces } from './modules/placePiece';
-
+import { setLevel, clearedLineCount } from './modules/gameStats';
 // initialize grid and play grid object 
 generateGameGrid();
 
-// stats
-var lines = 0;
-var scoreBoard = document.getElementById('lines');
-scoreBoard.textContent = `Lines: ${lines}`;
-
+// game menu 
 var menu = document.getElementById('menu');
 var gameGrid = document.getElementById('gameGrid');
 var columns = document.getElementsByClassName('column');
 
-// board specs
-var tableCells = document.getElementsByClassName('cell').length;
-var height = document.getElementById('table').rows.length;
-var rowLength = Math.ceil((tableCells / height)); // should be divisible by 10 
+// initialize game stats
+var levelCount = 1;
+setLevel(levelCount);
+clearedLineCount();
 
 // captures user input 
 var keyBoardCmd = '';
@@ -41,7 +37,7 @@ function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
 		case 'ArrowUp':
 		case 'KeyZ':
 			if (activePieceObj.checkYAxis()) {
-				activePieceObj.checkRotationCollisions(); 
+				activePieceObj.checkRotationCollisions();
 			}
 			break;
 		case 'ArrowLeft':
@@ -62,7 +58,7 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 		case 'ArrowUp':
 		case 'KeyZ':
 			if (activePieceObj.checkYAxis()) {
-				activePieceObj.checkRotationCollisions(); 
+				activePieceObj.checkRotationCollisions();
 			}
 			break;
 		case 'ArrowLeft':
@@ -99,15 +95,15 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			elems[c].classList.remove(currentPieceClass);
 			c--;
 		}
+
+		validateRows();
 		currentActivePiece = nextActivePiece;
 		nextActivePiece = createPiece(getRandomPieceStr());
 		drawIncomingShape(nextActivePiece);
-
-		validateRows();
 		return false;
 	}
 
-	// proceed as expected 
+	// if no piece collision, proceed as expected 
 	activePieceObj.moveDown();
 	placePiece(activePieceObj);
 
@@ -123,13 +119,11 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 	}
 }
 
-//														//
-// start & stop game controls //
-//														//
+// start & stop game controls 													//
 
 var myVar = setInterval(function () {
 	myTimer()
-}, 1000);
+}, 500);
 
 var timeStamp;
 var isPaused = false;
@@ -144,7 +138,7 @@ function toggleTimer() {
 	if (isPaused) {
 		myVar = setInterval(function () {
 			myTimer()
-		}, 1000);
+		}, 500);
 		btn = document.getElementById('toggleGameTimer');
 		isPaused = false;
 		btn.value = 'Pause';
@@ -182,4 +176,10 @@ quitBtn.addEventListener('click', function () {
 	} else {
 		clearInterval(myVar);
 	}
+});
+
+var testbtn = document.getElementById('testbtn');
+testbtn.addEventListener('click', function () {
+	validateRows();
+
 });

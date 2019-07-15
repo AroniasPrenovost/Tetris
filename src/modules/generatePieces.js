@@ -42,7 +42,7 @@ function pieceFactory() {
             let coords = piece.coordinates;
 
             // rotate once, check for collision w/ existing piece
-            piece.rotate(); 
+            piece.rotate();
 
             // if collision, revert back to original piece orientation and move down 
             for (var i = 0; i < coords.length; i++) {
@@ -52,9 +52,9 @@ function pieceFactory() {
                     let posNumber = boardObject[xPos][yPos].position;
                     if (elems[posNumber].classList.contains('fixed')) {
                         for (var i = 0; i < 3; i++) {
-                            piece.rotate(); 
+                            piece.rotate();
                         }
-                        let coords = piece.coordinates; 
+                        let coords = piece.coordinates;
                         for (var i = 0; i < coords.length; i++) {
                             coords[i].x = coords[i].x + 1;
                         }
@@ -63,18 +63,18 @@ function pieceFactory() {
             }
         }
         piece.checkYAxis = function () {
-            let coords = piece.coordinates; 
+            let coords = piece.coordinates;
             for (var i = 0; i < coords.length; i++) {
                 if (coords[i].y === 0 || coords[i].y === 9) {
                     if (piece.model === 'iPiece' && piece.horizontal === false) {
-                        return false; 
+                        return false;
                     }
                     if (piece.model === 'jPiece' && piece.horizontal === false) {
-                        return false; 
+                        return false;
                     }
                 }
             }
-            return true; 
+            return true;
         }
         piece.moveUp = function () {
             let coords = piece.coordinates;
@@ -214,10 +214,10 @@ function pieceFactory() {
             // check 2nd to last row 
             for (var i = 0; i < coords.length; i++) {
                 if (coords[i].x === secondLastRow) {
-                    collisionFlag = true; 
+                    collisionFlag = true;
                 }
             }
-            
+
             if (!collisionFlag) {
 
                 // jump forward 
@@ -232,8 +232,8 @@ function pieceFactory() {
                     if (boardObject[xPos]) {
                         let posNumber = boardObject[xPos][yPos].position;
                         if (elems[posNumber].classList.contains('fixed')) {
-                            collisionFlag = true; 
-                            i = coords.length; 
+                            collisionFlag = true;
+                            i = coords.length;
                         }
                     }
                 }

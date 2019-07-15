@@ -17,7 +17,6 @@ body {
 .row {
   display: flex; }
 
-/* game and lines, etc. column */
 .column {
   flex: 50%;
   padding: 10px;
@@ -34,7 +33,9 @@ body {
   width: 100%;
   text-align: center; }
 
-/* <!-- lists */
+/* 
+	lists
+*/
 ul li {
   opacity: .5;
   list-style-type: square;
@@ -53,8 +54,9 @@ li.inline {
   float: left;
   margin-right: 2em; }
 
-/* lists --> */
-/* <-- game grid */
+/* 
+	game grid
+*/
 table {
   border: none;
   max-width: 200px;
@@ -83,9 +85,8 @@ td {
 td.staging-cell {
   background-color: red; }
 
-/* game grid -->  */
 /*
-	<!-- pieces 
+	game pieces 
 */
 .iPieceClass {
   background-color: #6aedef; }
@@ -101,7 +102,3 @@ td.staging-cell {
 
 .test {
   background-color: orange; }
-
-/*
-	pieces --> 
-*/
