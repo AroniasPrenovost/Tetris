@@ -5,6 +5,17 @@ function deleteRow(e) {
     e.parentElement.remove();
 }
 
+function checkTopRowBoundary() {
+    var elems = document.getElementsByClassName('cell');
+    var thirdRow = [19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
+    for (var i = 0; i < thirdRow.length; i++) {
+        if (elems[thirdRow[i]].classList.contains('fixed')) {
+            return false;
+        }
+    }
+    return true;
+}
+
 function validateRows() {
     var elems = document.getElementsByClassName('cell');
     var count = 0;
@@ -47,6 +58,6 @@ function validateRows() {
     }
 }
 
-export { validateRows };
+export { validateRows, checkTopRowBoundary };
 
 

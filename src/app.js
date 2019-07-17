@@ -1,6 +1,6 @@
 import { generateGameGrid, generateBoardObject } from './modules/generateTable';
 import { createPiece, getRandomPieceStr } from './modules/generatePieces';
-import { validateRows } from './modules/validateRows';
+import { validateRows, checkTopRowBoundary } from './modules/validateRows';
 import { drawIncomingShape } from './modules/drawIncomingShape';
 import { placePiece, removePreviousPieces } from './modules/placePiece';
 import { setLevel, clearedLineCount } from './modules/gameStats';
@@ -52,70 +52,81 @@ function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
 
 // movement function 
 function pieceMovement(activePieceObj, keyBoardCmdStr) {
-	switch (keyBoardCmdStr) {
-		case 'ArrowDown':
-			break;
-		case 'ArrowUp':
-		case 'KeyZ':
-			if (activePieceObj.checkYAxis()) {
-				activePieceObj.checkRotationCollisions();
-			}
-			break;
-		case 'ArrowLeft':
-			activePieceObj.moveLeft();
-			break;
-		case 'ArrowRight':
-			activePieceObj.moveRight();
-			break;
-		case 'Space':
-			if (activePieceObj.disableSpaceFallMovemenet()) {
-				activePieceObj.moveDown();
-				placePiece(activePieceObj);
-			}
-			break;
-		case 'Escape':
+
+	if (!checkTopRowBoundary()) {
+		if (timerBtn.value === 'Pause') {
 			timerBtn.click();
-			break;
-		default:
-		// console.log('no cmd entered');
-	}
-	keyBoardCmd = '';
+		}
+		clearInterval(myVar);
+		document.getElementById('table').parentNode.removeChild(document.getElementById('table'));
+		generateGameGrid();
 
-	removePreviousPieces(activePieceObj);
-	getLastSecondSlide(activePieceObj, keyBoardCmd);
+	} else {
+		switch (keyBoardCmdStr) {
+			case 'ArrowDown':
+				break;
+			case 'ArrowUp':
+			case 'KeyZ':
+				if (activePieceObj.checkYAxis()) {
+					activePieceObj.checkRotationCollisions();
+				}
+				break;
+			case 'ArrowLeft':
+				activePieceObj.moveLeft();
+				break;
+			case 'ArrowRight':
+				activePieceObj.moveRight();
+				break;
+			case 'Space':
+				if (activePieceObj.disableSpaceFallMovemenet()) {
+					activePieceObj.moveDown();
+					placePiece(activePieceObj);
+				}
+				break;
+			case 'Escape':
+				timerBtn.click();
+				break;
+			default:
+			// console.log('no cmd entered');
+		}
+		keyBoardCmd = '';
 
-	// check if downward movement caused collision w/ 'fixed' piece
-	if (activePieceObj.checkDownwardPieceCollision()) {
-		placePiece(activePieceObj);
-		let currentPieceClass = activePieceObj.model + 'Class';
-		let elems = document.getElementsByClassName(currentPieceClass);
-		for (var c = 0; c < elems.length; c++) {
-			elems[c].classList.add('fixed');
-			elems[c].style.backgroundColor = activePieceObj.color;
-			elems[c].classList.remove(currentPieceClass);
-			c--;
+		removePreviousPieces(activePieceObj);
+		getLastSecondSlide(activePieceObj, keyBoardCmd);
+
+		// check if downward movement caused collision w/ 'fixed' piece
+		if (activePieceObj.checkDownwardPieceCollision()) {
+			placePiece(activePieceObj);
+			let currentPieceClass = activePieceObj.model + 'Class';
+			let elems = document.getElementsByClassName(currentPieceClass);
+			for (var c = 0; c < elems.length; c++) {
+				elems[c].classList.add('fixed');
+				elems[c].style.backgroundColor = activePieceObj.color;
+				elems[c].classList.remove(currentPieceClass);
+				c--;
+			}
+
+			validateRows();
+			currentActivePiece = nextActivePiece;
+			nextActivePiece = createPiece(getRandomPieceStr());
+			drawIncomingShape(nextActivePiece);
+			return false;
 		}
 
-		validateRows();
-		currentActivePiece = nextActivePiece;
-		nextActivePiece = createPiece(getRandomPieceStr());
-		drawIncomingShape(nextActivePiece);
-		return false;
-	}
+		// if no piece collision, proceed as expected 
+		activePieceObj.moveDown();
+		placePiece(activePieceObj);
 
-	// if no piece collision, proceed as expected 
-	activePieceObj.moveDown();
-	placePiece(activePieceObj);
-
-	// check bottom board boundary. if true, fix piece 
-	if (activePieceObj.checkBottomRowBoundary()) {
-		moves++;
-		keyBoardCmd = '';
-		validateRows();
-	} else {
-		currentActivePiece = nextActivePiece;
-		nextActivePiece = createPiece(getRandomPieceStr());
-		drawIncomingShape(nextActivePiece);
+		// check bottom board boundary. if true, fix piece 
+		if (activePieceObj.checkBottomRowBoundary()) {
+			moves++;
+			keyBoardCmd = '';
+			validateRows();
+		} else {
+			currentActivePiece = nextActivePiece;
+			nextActivePiece = createPiece(getRandomPieceStr());
+			drawIncomingShape(nextActivePiece);
+		}
 	}
 }
 
@@ -176,10 +187,4 @@ quitBtn.addEventListener('click', function () {
 	} else {
 		clearInterval(myVar);
 	}
-});
-
-var testbtn = document.getElementById('testbtn');
-testbtn.addEventListener('click', function () {
-	validateRows();
-
 });
