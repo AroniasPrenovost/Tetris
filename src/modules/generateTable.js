@@ -7,27 +7,24 @@ const generateGameGrid = () => {
 	let tableBody = document.createElement('TBODY');
 	table.appendChild(tableBody);
 
-	for (let i = 0; i < 22; i++) {
+	for (let i = 0; i < 23; i++) {
 		let tr = document.createElement('TR');
 
 		if (i < 2) {
 			tr.classList.add('piece-staging-row');
 		}
 
+		if (i === 22) {
+			tr.classList.add('piece-staging-row');
+		}
+
 		tableBody.appendChild(tr);
 		for (let j = 0; j < 10; j++) { // table row must be divisible by 10   
 			let td = document.createElement('TD');
-			td.width = '10%';
-
-			if (i < 2) {
-				td.classList.add('cell');
-				td.value = 'closed';
-				// td.value = 'open';
-			} else {
-				td.classList.add('cell');
-				td.value = 'open';
+			td.classList.add('cell');
+			if (i === 22) {
+				td.classList.add('fixed');
 			}
-
 			tr.appendChild(td);
 		}
 	}

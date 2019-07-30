@@ -58,7 +58,8 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			timerBtn.click();
 		}
 		clearInterval(myVar);
-		document.getElementById('table').parentNode.removeChild(document.getElementById('table'));
+		var tableElem = document.getElementById('table');
+		tableElem.parentNode.removeChild(tableElem);
 		generateGameGrid();
 
 	} else {
@@ -110,22 +111,13 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			currentActivePiece = nextActivePiece;
 			nextActivePiece = createPiece(getRandomPieceStr());
 			drawIncomingShape(nextActivePiece);
-			return false;
-		}
 
-		// if no piece collision, proceed as expected 
-		activePieceObj.moveDown();
-		placePiece(activePieceObj);
-
-		// check bottom board boundary. if true, fix piece 
-		if (activePieceObj.checkBottomRowBoundary()) {
+		} else { // if no collision, proceed as expected 
+			activePieceObj.moveDown();
+			placePiece(activePieceObj);
 			moves++;
 			keyBoardCmd = '';
 			validateRows();
-		} else {
-			currentActivePiece = nextActivePiece;
-			nextActivePiece = createPiece(getRandomPieceStr());
-			drawIncomingShape(nextActivePiece);
 		}
 	}
 }

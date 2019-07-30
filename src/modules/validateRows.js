@@ -28,32 +28,35 @@ function validateRows() {
             elemPos = [];
         }
 
-        // add row cells with 'fixed' class to list 
-        if (elems[i].classList.contains('fixed')) {
-            elemPos.push(i);
-            count++;
-        }
+        // skip last row/lower boundary 
+        if (!elems[i].parentNode.classList.contains('piece-staging-row')) {
 
-        // if row of cells is filled, insert new row 
-        if (count === 10) {
-
-            // set game dashboard stats 
-            clearedLineCount();
-
-            deleteRow(elems[elemPos[0]]);
-
-            let tableBody = document.getElementById('table').tBodies[0];
-            let tr = document.createElement('TR');
-            tableBody.appendChild(tr);
-            for (let j = 0; j < 10; j++) {
-                let td = document.createElement('TD');
-                td.width = '10%';
-                td.classList.add('cell');
-                tr.appendChild(td);
+            // add row cells with 'fixed' class to list 
+            if (elems[i].classList.contains('fixed')) {
+                elemPos.push(i);
+                count++;
             }
 
-            // insert new row at 3rd position, below 'staging' area
-            tableBody.insertBefore(tr, tableBody.childNodes[2]);
+            // if row of cells is filled, insert new row 
+            if (count === 10) {
+
+                // set game dashboard stats 
+                clearedLineCount();
+
+                deleteRow(elems[elemPos[0]]);
+
+                let tableBody = document.getElementById('table').tBodies[0];
+                let tr = document.createElement('TR');
+                tableBody.appendChild(tr);
+                for (let j = 0; j < 10; j++) {
+                    let td = document.createElement('TD');
+                    td.classList.add('cell');
+                    tr.appendChild(td);
+                }
+
+                // insert new row at 3rd position, below 'staging' area
+                tableBody.insertBefore(tr, tableBody.childNodes[2]);
+            }
         }
     }
 }

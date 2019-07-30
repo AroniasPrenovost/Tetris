@@ -1,4 +1,5 @@
-import { shuffle } from './shuffle';
+import { shuffle } from './helpers/shuffle';
+import { checkHorizontalCollision, moveVertically } from './helpers/collisions';
 import { generateBoardObject } from './generateTable';
 
 // Abstract factory design pattern 
@@ -28,12 +29,6 @@ function pieceFactory() {
             default:
                 piece = new jPiece();
                 break;
-        }
-
-        if (typeof piece.printModel === 'undefined') {
-            piece.printModel = function () {
-                console.log('This piece model is:', piece.model);
-            }
         }
 
         piece.checkRotationCollisions = function () {
@@ -77,80 +72,16 @@ function pieceFactory() {
             return true;
         }
         piece.moveUp = function () {
-            let coords = piece.coordinates;
-            for (var i = 0; i < coords.length; i++) {
-                coords[i].x = coords[i].x - 1;
-            }
+            moveVertically(piece, 'up');
         }
         piece.moveDown = function () {
-            let coords = piece.coordinates;
-            for (var i = 0; i < coords.length; i++) {
-                coords[i].x = coords[i].x + 1;
-            }
+            moveVertically(piece, 'down');
         }
         piece.moveLeft = function () {
-            let elems = document.getElementsByClassName('cell');
-            let boardObject = generateBoardObject(elems);
-            let coords = piece.coordinates;
-
-            // check grid boundary 
-            for (var i = 0; i < coords.length; i++) {
-                if (coords[i].y === 0) {
-                    return false;
-                }
-            }
-
-            // move to left to check piece collision
-            for (var i = 0; i < coords.length; i++) {
-                coords[i].y = coords[i].y - 1;
-            }
-
-            // if collision, move piece back and exit 
-            for (var i = 0; i < coords.length; i++) {
-                let xPos = coords[i].x;
-                let yPos = coords[i].y;
-                if (boardObject[xPos]) {
-                    let posNumber = boardObject[xPos][yPos].position;
-                    if (elems[posNumber].classList.contains('fixed')) {
-                        for (var i = 0; i < coords.length; i++) {
-                            coords[i].y = coords[i].y + 1;
-                        }
-                        return false;
-                    }
-                }
-            }
+            checkHorizontalCollision(piece, 'left');
         }
         piece.moveRight = function () {
-            let elems = document.getElementsByClassName('cell');
-            let boardObject = generateBoardObject(elems);
-            let coords = piece.coordinates;
-
-            // check grid boundary 
-            for (var i = 0; i < coords.length; i++) {
-                if (coords[i].y === 9) {
-                    return false;
-                }
-            }
-
-            // move to left to check piece collision
-            for (var i = 0; i < coords.length; i++) {
-                coords[i].y = coords[i].y + 1;
-            }
-
-            // if collision, move piece back and exit 
-            for (var i = 0; i < coords.length; i++) {
-                let xPos = coords[i].x;
-                let yPos = coords[i].y;
-                if (boardObject[xPos]) {
-                    let posNumber = boardObject[xPos][yPos].position;
-                    if (elems[posNumber].classList.contains('fixed')) {
-                        for (var i = 0; i < coords.length; i++) {
-                            coords[i].y = coords[i].y - 1;
-                        }
-                        return false;
-                    }
-                }
-            }
+            checkHorizontalCollision(piece, 'right');
         }
         piece.checkDownwardPieceCollision = function () {
             let elems = document.getElementsByClassName('cell');
@@ -185,24 +116,6 @@ function pieceFactory() {
             } else {
                 return false;
             }
-        }
-        piece.checkBottomRowBoundary = function () {
-            let lastRow = 21;
-            let coords = piece.coordinates;
-            let currentPieceClass = piece.model + 'Class';
-            let elems = document.getElementsByClassName(currentPieceClass);
-            for (var i = 0; i < coords.length; i++) {
-                if (coords[i].x === lastRow) {
-                    for (var c = 0; c < elems.length; c++) {
-                        elems[c].classList.add('fixed');
-                        elems[c].style.backgroundColor = piece.color;
-                        elems[c].classList.remove(currentPieceClass);
-                        c--;
-                    }
-                    return false;
-                }
-            }
-            return true;
         }
         piece.disableSpaceFallMovemenet = function () {
             let secondLastRow = 20;
