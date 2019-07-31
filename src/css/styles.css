@@ -69,7 +69,7 @@ tr {
   /* 500px / 23 rows */ }
 
 tr.piece-staging-row {
-  background-color: red !important; }
+  visibility: hiddens; }
 
 #gameGrid {
   display: none; }
@@ -99,6 +99,3 @@ td.staging-cell {
 
 .rightSnakePieceClass {
   background-color: #ffbe76; }
-
-.test {
-  background-color: orange; }

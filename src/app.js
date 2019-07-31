@@ -1,4 +1,4 @@
-import { generateGameGrid, generateBoardObject } from './modules/generateTable';
+import { generateGameGrid, endGameAnimation } from './modules/generateTable';
 import { createPiece, getRandomPieceStr } from './modules/generatePieces';
 import { validateRows, checkTopRowBoundary } from './modules/validateRows';
 import { drawIncomingShape } from './modules/drawIncomingShape';
@@ -58,10 +58,7 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 			timerBtn.click();
 		}
 		clearInterval(myVar);
-		var tableElem = document.getElementById('table');
-		tableElem.parentNode.removeChild(tableElem);
-		generateGameGrid();
-
+		endGameAnimation();
 	} else {
 		switch (keyBoardCmdStr) {
 			case 'ArrowDown':

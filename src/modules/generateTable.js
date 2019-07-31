@@ -48,10 +48,18 @@ function generateBoardObject(args) {
 }
 
 
-// function paintPiece(obj) {
-// 	for (var i = 0; i < obj.length; i++) {
+function endGameAnimation() {
+	let cells = document.getElementsByClassName('cell');
+	for (var i = 0; i < cells.length; i++) {
+		if (i > 19 && i < 220) {
+			cells[i].style.backgroundColor = 'black';
+		}
+	}
+	setTimeout(function () {
+		let tableElem = document.getElementById('table');
+		tableElem.parentNode.removeChild(tableElem);
+		generateGameGrid();
+	}, 1200);
+}
 
-// 	}
-// }
-
-export { generateGameGrid, generateBoardObject, targetXandYAxis };
+export { generateGameGrid, generateBoardObject, endGameAnimation };
