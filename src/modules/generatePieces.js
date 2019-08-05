@@ -8,7 +8,7 @@ import { generateBoardObject } from './generateTable';
 
 function pieceFactory() {
     this.createPiece = function (model) {
-        var piece;
+        let piece;
 
         switch (model) {
             case 'iPiece':
@@ -40,17 +40,17 @@ function pieceFactory() {
             piece.rotate();
 
             // if collision, revert back to original piece orientation and move down 
-            for (var i = 0; i < coords.length; i++) {
+            for (let i = 0; i < coords.length; i++) {
                 let xPos = coords[i].x;
                 let yPos = coords[i].y;
                 if (boardObject[xPos]) {
                     let posNumber = boardObject[xPos][yPos].position;
-                    if (elems[posNumber].classList.contains('fixed')) {
-                        for (var i = 0; i < 3; i++) {
+                    if (elems[posNumber].classList.contains('fixed') || elems[posNumber] === undefined) {
+                        for (let i = 0; i < 3; i++) {
                             piece.rotate();
                         }
                         let coords = piece.coordinates;
-                        for (var i = 0; i < coords.length; i++) {
+                        for (let i = 0; i < coords.length; i++) {
                             coords[i].x = coords[i].x + 1;
                         }
                     }
@@ -59,7 +59,7 @@ function pieceFactory() {
         }
         piece.checkYAxis = function () {
             let coords = piece.coordinates;
-            for (var i = 0; i < coords.length; i++) {
+            for (let i = 0; i < coords.length; i++) {
                 if (coords[i].y === 0 || coords[i].y === 9) {
                     if (piece.model === 'iPiece' && piece.horizontal === false) {
                         return false;
@@ -90,11 +90,11 @@ function pieceFactory() {
             let collisionFlag = false;
 
             // jump forward 
-            for (var i = 0; i < coords.length; i++) {
+            for (let i = 0; i < coords.length; i++) {
                 coords[i].x = coords[i].x + 1;
             }
 
-            for (var i = 0; i < coords.length; i++) {
+            for (let i = 0; i < coords.length; i++) {
                 let xPos = coords[i].x;
                 let yPos = coords[i].y;
                 if (boardObject[xPos]) {
@@ -107,7 +107,7 @@ function pieceFactory() {
             }
 
             // jump back  
-            for (var i = 0; i < coords.length; i++) {
+            for (let i = 0; i < coords.length; i++) {
                 coords[i].x = coords[i].x - 1;
             }
 
@@ -125,7 +125,7 @@ function pieceFactory() {
             let collisionFlag = false;
 
             // check 2nd to last row 
-            for (var i = 0; i < coords.length; i++) {
+            for (let i = 0; i < coords.length; i++) {
                 if (coords[i].x === secondLastRow) {
                     collisionFlag = true;
                 }
@@ -134,12 +134,12 @@ function pieceFactory() {
             if (!collisionFlag) {
 
                 // jump forward 
-                for (var i = 0; i < coords.length; i++) {
+                for (let i = 0; i < coords.length; i++) {
                     coords[i].x = coords[i].x + 1;
                 }
 
                 // check piece collision 
-                for (var i = 0; i < coords.length; i++) {
+                for (let i = 0; i < coords.length; i++) {
                     let xPos = coords[i].x;
                     let yPos = coords[i].y;
                     if (boardObject[xPos]) {
@@ -152,7 +152,7 @@ function pieceFactory() {
                 }
 
                 // jump back
-                for (var i = 0; i < coords.length; i++) {
+                for (let i = 0; i < coords.length; i++) {
                     coords[i].x = coords[i].x - 1;
                 }
             }
@@ -182,7 +182,7 @@ function iPiece() {
     this.horizontal = true;
     this.rotate = function () {
         let coords = this.coordinates;
-        for (var i = 0; i < coords.length; i++) {
+        for (let i = 0; i < coords.length; i++) {
             let xPos = coords[i].x;
             let yPos = coords[i].y;
 
@@ -243,7 +243,7 @@ function iPiece() {
             this.horizontal = false;
         } else {
             let newCoords = this.coordinates;
-            for (var i = 0; i < newCoords.length; i++) {
+            for (let i = 0; i < newCoords.length; i++) {
                 newCoords[i].x = newCoords[i].x - 1;
             }
             this.coordinates.reverse();
@@ -268,7 +268,7 @@ function jPiece() {
     this.orientRight = true;
     this.rotate = function () {
         let coords = this.coordinates;
-        for (var i = 0; i < coords.length; i++) {
+        for (let i = 0; i < coords.length; i++) {
             let xPos = coords[i].x;
             let yPos = coords[i].y;
 
@@ -445,7 +445,7 @@ function rightSnakePiece() {
     this.previewCoords = [8, 9, 13, 14];
     this.rotate = function () {
         let coords = this.coordinates;
-        for (var i = 0; i < coords.length; i++) {
+        for (let i = 0; i < coords.length; i++) {
             let xPos = coords[i].x;
             let yPos = coords[i].y;
 
@@ -522,12 +522,12 @@ function rightSnakePiece() {
 
 // initialize pieces
 function getRandomPieceStr() {
-    var pieces = shuffle(['iPiece', 'jPiece', 'oPiece', 'rightSnakePiece' /* , 'lPiece', 'tPiece', 'leftSnakePiece' */]);
+    let pieces = shuffle(['iPiece', 'opiece', 'jPiece', 'rightSnakePiece' /* 'lPiece', 'tPiece', 'leftSnakePiece' */]);
     return shuffle(pieces)[0];
 }
 
 function createPiece(pieceStr) {
-    var factory = new pieceFactory();
+    let factory = new pieceFactory();
     return factory.createPiece(pieceStr);
 }
 

@@ -32,10 +32,10 @@ const generateGameGrid = () => {
 }
 
 function generateBoardObject(args) {
-	var board = [];
-	var row = [];
-	for (var i = 0; i < args.length; i++) {
-		var cellObj = {};
+	let board = [];
+	let row = [];
+	for (let i = 0; i < args.length; i++) {
+		let cellObj = {};
 		cellObj.class = args[i].classList[0];
 		cellObj.position = Number(i);
 		row.push(cellObj);
@@ -47,10 +47,9 @@ function generateBoardObject(args) {
 	return board;
 }
 
-
 function endGameAnimation() {
 	let cells = document.getElementsByClassName('cell');
-	for (var i = 0; i < cells.length; i++) {
+	for (let i = 0; i < cells.length; i++) {
 		if (i > 19 && i < 220) {
 			cells[i].style.backgroundColor = 'black';
 		}

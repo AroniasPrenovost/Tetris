@@ -1,15 +1,23 @@
-function setLevel(int) {
+let timeInterval;
+function setGameSpeedInterval() {
     let level = document.getElementById('levelValue');
-    let levelValue = document.getElementById('levelValue').textContent;
-    if (!levelValue.length) {
-        levelValue = int;
-    } else {
-        levelValue += int;
-    }
-    level.textContent = `Level: ${levelValue}`;
+    let levelValue = level.textContent.replace(/^\D+/g, '');
+    timeInterval = (6 - Number(levelValue)) * 75;
 }
 
-function clearedLineCount() {
+function setLevel() {
+    let level = document.getElementById('levelValue');
+    let levelValue = level.textContent.replace(/^\D+/g, '');
+    if (!levelValue.length) {
+        levelValue = 1;
+    } else {
+        levelValue++;
+    }
+    level.textContent = `Level: ${levelValue}`;
+    setGameSpeedInterval();
+}
+
+function setClearedLineCount() {
     let lines = document.getElementById('lineValue');
     let lineValue = lines.textContent.replace(/^\D+/g, '');
     if (!lineValue.length) {
@@ -20,4 +28,4 @@ function clearedLineCount() {
     lines.textContent = `Lines cleared: ${lineValue}`;
 }
 
-export { setLevel, clearedLineCount }; 
+export { setLevel, setClearedLineCount, timeInterval }; 

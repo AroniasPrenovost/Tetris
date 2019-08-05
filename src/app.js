@@ -2,52 +2,34 @@ import { generateGameGrid, endGameAnimation } from './modules/generateTable';
 import { createPiece, getRandomPieceStr } from './modules/generatePieces';
 import { validateRows, checkTopRowBoundary } from './modules/validateRows';
 import { drawIncomingShape } from './modules/drawIncomingShape';
-import { placePiece, removePreviousPieces } from './modules/placePiece';
-import { setLevel, clearedLineCount } from './modules/gameStats';
+import { getKeyBoardCmd, getKeyBoardCmdLastSecondSlide, placePiece, removePreviousPieces } from './modules/piecePlacement';
+import { setLevel, setClearedLineCount, timeInterval } from './modules/gameStats';
+
 // initialize grid and play grid object 
 generateGameGrid();
 
 // game menu 
-var menu = document.getElementById('menu');
-var gameGrid = document.getElementById('gameGrid');
-var columns = document.getElementsByClassName('column');
+let menu = document.getElementById('menu');
+let gameGrid = document.getElementById('gameGrid');
+let columns = document.getElementsByClassName('column');
 
 // initialize game stats
-var levelCount = 1;
-setLevel(levelCount);
-clearedLineCount();
+setLevel();
+setClearedLineCount();
 
 // captures user input 
-var keyBoardCmd = '';
+let keyBoardCmd = '';
 function logKey(e) { keyBoardCmd = e.code; }
 document.addEventListener('keydown', logKey);
 
-var currentActivePiece = createPiece(getRandomPieceStr());
-var nextActivePiece = createPiece(getRandomPieceStr());
-
+// initialize game pueces 
+let currentActivePiece = createPiece(getRandomPieceStr());
+let nextActivePiece = createPiece(getRandomPieceStr());
 drawIncomingShape(nextActivePiece);
 
-var moves = 0;
+let moves = 0;
 if (moves === 0) {
 	placePiece(currentActivePiece);
-}
-
-function getLastSecondSlide(activePieceObj, keyBoardCmdStr) {
-	switch (keyBoardCmdStr) {
-		case 'ArrowUp':
-		case 'KeyZ':
-			if (activePieceObj.checkYAxis()) {
-				activePieceObj.checkRotationCollisions();
-			}
-			break;
-		case 'ArrowLeft':
-			activePieceObj.moveLeft();
-			break;
-		case 'ArrowRight':
-			activePieceObj.moveRight();
-			break;
-		default:
-	}
 }
 
 // movement function 
@@ -60,44 +42,21 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 		clearInterval(myVar);
 		endGameAnimation();
 	} else {
-		switch (keyBoardCmdStr) {
-			case 'ArrowDown':
-				break;
-			case 'ArrowUp':
-			case 'KeyZ':
-				if (activePieceObj.checkYAxis()) {
-					activePieceObj.checkRotationCollisions();
-				}
-				break;
-			case 'ArrowLeft':
-				activePieceObj.moveLeft();
-				break;
-			case 'ArrowRight':
-				activePieceObj.moveRight();
-				break;
-			case 'Space':
-				if (activePieceObj.disableSpaceFallMovemenet()) {
-					activePieceObj.moveDown();
-					placePiece(activePieceObj);
-				}
-				break;
-			case 'Escape':
-				timerBtn.click();
-				break;
-			default:
-			// console.log('no cmd entered');
-		}
+
+		// intake initial key command and move piece 
+		getKeyBoardCmd(activePieceObj, keyBoardCmd);
 		keyBoardCmd = '';
 
+		// hide previous piece, move piece, and take last second command for 'slide' 
 		removePreviousPieces(activePieceObj);
-		getLastSecondSlide(activePieceObj, keyBoardCmd);
+		getKeyBoardCmdLastSecondSlide(activePieceObj, keyBoardCmd);
 
 		// check if downward movement caused collision w/ 'fixed' piece
 		if (activePieceObj.checkDownwardPieceCollision()) {
 			placePiece(activePieceObj);
 			let currentPieceClass = activePieceObj.model + 'Class';
 			let elems = document.getElementsByClassName(currentPieceClass);
-			for (var c = 0; c < elems.length; c++) {
+			for (let c = 0; c < elems.length; c++) {
 				elems[c].classList.add('fixed');
 				elems[c].style.backgroundColor = activePieceObj.color;
 				elems[c].classList.remove(currentPieceClass);
@@ -120,14 +79,17 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 }
 
 // start & stop game controls 													//
+/*
+- 5 levels, levels increase every 10 rows cleared 
+- At new level, intervalLength reduces 100 milliseconds */
 
-var myVar = setInterval(function () {
-	myTimer()
-}, 500);
+let timeStamp;
+let isPaused = false;
+let btn;
 
-var timeStamp;
-var isPaused = false;
-var btn;
+let myVar = setInterval(function () {
+	myTimer();
+}, timeInterval);
 
 function myTimer() {
 	timeStamp = + new Date;
@@ -137,8 +99,8 @@ function myTimer() {
 function toggleTimer() {
 	if (isPaused) {
 		myVar = setInterval(function () {
-			myTimer()
-		}, 500);
+			myTimer();
+		}, timeInterval);
 		btn = document.getElementById('toggleGameTimer');
 		isPaused = false;
 		btn.value = 'Pause';
@@ -151,12 +113,12 @@ function toggleTimer() {
 }
 
 // UI buttons, rendered last 
-var timerBtn = document.getElementById('toggleGameTimer');
+let timerBtn = document.getElementById('toggleGameTimer');
 timerBtn.addEventListener('click', function () {
 	toggleTimer();
 }); timerBtn.click(); // initial pause 
 
-var startBtn = document.getElementById('start');
+let startBtn = document.getElementById('start');
 startBtn.addEventListener('click', function () {
 	timerBtn.click();
 	menu.style.display = 'none';
@@ -165,7 +127,7 @@ startBtn.addEventListener('click', function () {
 	columns[1].style.display = 'block';
 });
 
-var quitBtn = document.getElementById('quit');
+let quitBtn = document.getElementById('quit');
 quitBtn.addEventListener('click', function () {
 	menu.style.display = 'block';
 	gameGrid.style.display = 'none';

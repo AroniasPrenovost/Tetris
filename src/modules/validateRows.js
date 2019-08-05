@@ -1,4 +1,4 @@
-import { clearedLineCount } from './gameStats';
+import { setLevel, setClearedLineCount } from './gameStats';
 
 function deleteRow(e) {
     e.parentElement.classList.toggle('fade');
@@ -6,9 +6,9 @@ function deleteRow(e) {
 }
 
 function checkTopRowBoundary() {
-    var elems = document.getElementsByClassName('cell');
-    var thirdRow = [19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
-    for (var i = 0; i < thirdRow.length; i++) {
+    let elems = document.getElementsByClassName('cell');
+    let thirdRow = [19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
+    for (let i = 0; i < thirdRow.length; i++) {
         if (elems[thirdRow[i]].classList.contains('fixed')) {
             return false;
         }
@@ -17,10 +17,10 @@ function checkTopRowBoundary() {
 }
 
 function validateRows() {
-    var elems = document.getElementsByClassName('cell');
-    var count = 0;
-    var elemPos = [];
-    for (var i = 0; i < elems.length; i++) {
+    let elems = document.getElementsByClassName('cell');
+    let count = 0;
+    let elemPos = [];
+    for (let i = 0; i < elems.length; i++) {
 
         // new row, empty list of 'fixed' cells
         if (i % 10 === 0) {
@@ -41,7 +41,13 @@ function validateRows() {
             if (count === 10) {
 
                 // set game dashboard stats 
-                clearedLineCount();
+                setClearedLineCount();
+
+                let lines = document.getElementById('lineValue');
+                let lineValue = lines.textContent.replace(/^\D+/g, '');
+                if (lineValue % 5 === 0) {
+                    setLevel(); // +1 level 
+                }
 
                 deleteRow(elems[elemPos[0]]);
 
@@ -62,5 +68,3 @@ function validateRows() {
 }
 
 export { validateRows, checkTopRowBoundary };
-
-
