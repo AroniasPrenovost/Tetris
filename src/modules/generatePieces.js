@@ -522,7 +522,7 @@ function rightSnakePiece() {
 
 // initialize pieces
 function getRandomPieceStr() {
-    let pieces = shuffle(['iPiece', 'opiece', 'jPiece', 'rightSnakePiece' /* 'lPiece', 'tPiece', 'leftSnakePiece' */]);
+    let pieces = shuffle(['opiece' /* 'iPiece', 'jPiece', 'rightSnakePiece' 'lPiece', 'tPiece', 'leftSnakePiece' */]);
     return shuffle(pieces)[0];
 }
 
