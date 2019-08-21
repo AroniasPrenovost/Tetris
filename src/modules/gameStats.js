@@ -5,7 +5,7 @@ function setGameSpeedInterval() {
     timeInterval = (6 - Number(levelValue)) * 75;
 }
 
-function setLevel() {
+function setLevel(num) {
     let level = document.getElementById('levelValue');
     let levelValue = level.textContent.replace(/^\D+/g, '');
     if (!levelValue.length) {
@@ -14,10 +14,15 @@ function setLevel() {
         levelValue++;
     }
     level.textContent = `Level: ${levelValue}`;
+    if (num === 0) {
+        levelValue = 1;
+        level.textContent = `Level: ${levelValue}`;
+        return false;
+    }
     setGameSpeedInterval();
 }
 
-function setClearedLineCount() {
+function setClearedLineCount(num) {
     let lines = document.getElementById('lineValue');
     let lineValue = lines.textContent.replace(/^\D+/g, '');
     if (!lineValue.length) {
@@ -26,6 +31,10 @@ function setClearedLineCount() {
         lineValue++;
     }
     lines.textContent = `Lines cleared: ${lineValue}`;
+    if (num === 0) {
+        lineValue = 0;
+        lines.textContent = `Lines cleared: ${lineValue}`;
+    }
 }
 
 export { setLevel, setClearedLineCount, timeInterval }; 

@@ -33,7 +33,7 @@ if (moves === 0) {
 }
 
 // movement function 
-function pieceMovement(activePieceObj, keyBoardCmdStr) {
+function pieceMovement(activePieceObj) {
 
 	if (!checkTopRowBoundary()) {
 		if (timerBtn.value === 'Pause') {
@@ -41,6 +41,8 @@ function pieceMovement(activePieceObj, keyBoardCmdStr) {
 		}
 		clearInterval(myVar);
 		endGameAnimation();
+		setLevel(0);
+		setClearedLineCount(0);
 	} else {
 
 		// intake initial key command and move piece 
