@@ -11,8 +11,6 @@ The game of Tetris used to illustrate the implementation of the following design
 
 ```
 $ npm install ; npm install gulp@3.9.1 --save
-```
-```
 $ npm start
 ```
 runs  'webpack -d --watch' and 'gulp watch' simultaneously
