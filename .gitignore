@@ -1,2 +1,5 @@
-# ignore the following: 
+# dependencies
 /node_modules
+
+# misc
+.DS_Store
