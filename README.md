@@ -10,6 +10,6 @@ The game of Tetris used to illustrate the implementation of the following design
 ## Installation 
 
 ```
-$ npm install ; npm install gulp@3.9.1 --save
+$ npm install ; 
 $ npm start
 ```
