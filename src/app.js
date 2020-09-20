@@ -13,16 +13,16 @@ let menu = document.getElementById('menu');
 let gameGrid = document.getElementById('gameGrid');
 let columns = document.getElementsByClassName('column');
 
-// initialize game stats
+// initialize game / clear stats 
 setLevel();
 setClearedLineCount();
 
-// captures user input 
+// capture user input 
 let keyBoardCmd = '';
 function logKey(e) { keyBoardCmd = e.code; }
 document.addEventListener('keydown', logKey);
 
-// initialize game pueces 
+// initialize game pieces 
 let currentActivePiece = createPiece(getRandomPieceStr());
 let nextActivePiece = createPiece(getRandomPieceStr());
 drawIncomingShape(nextActivePiece);
@@ -32,17 +32,25 @@ if (moves === 0) {
 	placePiece(currentActivePiece);
 }
 
+// end game
+function gameOver(str) {
+	if ((timerBtn.value).toLowerCase() === 'pause') {
+		timerBtn.click();
+	}
+	clearInterval(myVar);
+	endGameAnimation();
+	setLevel(0);
+	setClearedLineCount(0);
+	if (str && str.length > 0) {
+		alert(str);
+	}
+}
+
 // movement function 
 function pieceMovement(activePieceObj) {
 
 	if (!checkTopRowBoundary()) {
-		if (timerBtn.value === 'Pause') {
-			timerBtn.click();
-		}
-		clearInterval(myVar);
-		endGameAnimation();
-		setLevel(0);
-		setClearedLineCount(0);
+		gameOver('You lose!');
 	} else {
 
 		// intake initial key command and move piece 
@@ -80,14 +88,14 @@ function pieceMovement(activePieceObj) {
 	}
 }
 
-// start & stop game controls 													//
-/*
-- 5 levels, levels increase every 10 rows cleared 
-- At new level, intervalLength reduces 100 milliseconds */
+// start & stop game controls 	
 
+// 5 levels total, level++ every 10 rows cleared 
+// at new level, intervalLength--100 milliseconds 
+
+let btn;
 let timeStamp;
 let isPaused = false;
-let btn;
 
 let myVar = setInterval(function () {
 	myTimer();
@@ -131,13 +139,5 @@ startBtn.addEventListener('click', function () {
 
 let quitBtn = document.getElementById('quit');
 quitBtn.addEventListener('click', function () {
-	menu.style.display = 'block';
-	gameGrid.style.display = 'none';
-	columns[0].style.display = 'none';
-	columns[1].style.display = 'none';
-	if (timerBtn.value === 'Pause') {
-		timerBtn.click();
-	} else {
-		clearInterval(myVar);
-	}
+	gameOver('You quit!'); 
 });
