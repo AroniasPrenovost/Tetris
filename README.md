@@ -1,15 +1,18 @@
-# Tetris
+## Tetris
 
-The game of Tetris used to illustrate the implementation of the following design patterns: 
+The game of Tetris used to illustrate the following design patterns' implementation: 
 ```
 - Factory 
 - Observer
 - etc...
 ```
 
-## Installation 
-
+### Installation 
 ```
-$ npm install ; 
+$ npm install
+```
+
+### Start game 
+```
 $ npm start
 ```
