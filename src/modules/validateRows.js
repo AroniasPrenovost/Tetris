@@ -9,7 +9,7 @@ function checkTopRowBoundary() {
     let elems = document.getElementsByClassName('cell');
     let thirdRow = [19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
     for (let i = 0; i < thirdRow.length; i++) {
-        if (elems[thirdRow[i]].classList.contains('fixed')) {
+        if (elems[thirdRow[i]].dataset.occupied) {
             return false;
         }
     }
@@ -22,7 +22,7 @@ function validateRows() {
     let elemPos = [];
     for (let i = 0; i < elems.length; i++) {
 
-        // new row, empty list of 'fixed' cells
+        // new row, empty list of  'occupied' cells
         if (i % 10 === 0) {
             count = 0;
             elemPos = [];
@@ -31,8 +31,8 @@ function validateRows() {
         // skip last row/lower boundary 
         if (!elems[i].parentNode.classList.contains('piece-staging-row')) {
 
-            // add row cells with 'fixed' class to list 
-            if (elems[i].classList.contains('fixed')) {
+            // add row cells with 'occupied' class to list 
+            if (elems[i].dataset.occupied) {
                 elemPos.push(i);
                 count++;
             }

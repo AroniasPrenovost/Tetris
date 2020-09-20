@@ -35,7 +35,7 @@ function checkHorizontalCollision(obj, str) {
         let yPos = coords[i].y;
         if (boardObject[xPos]) {
             let posNumber = boardObject[xPos][yPos].position;
-            if (cells[posNumber].classList.contains('fixed')) {
+            if (cells[posNumber].dataset.occupied) {
                 for (let i = 0; i < coords.length; i++) {
                     if (str === 'right') {
                         coords[i].y = coords[i].y - 1;

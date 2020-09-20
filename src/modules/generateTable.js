@@ -23,7 +23,7 @@ const generateGameGrid = () => {
 			let td = document.createElement('TD');
 			td.classList.add('cell');
 			if (i === 22) {
-				td.classList.add('fixed');
+				td.dataset.occupied = true;
 			}
 			tr.appendChild(td);
 		}

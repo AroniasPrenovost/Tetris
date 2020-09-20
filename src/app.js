@@ -61,13 +61,13 @@ function pieceMovement(activePieceObj) {
 		removePreviousPieces(activePieceObj);
 		getKeyBoardCmdLastSecondSlide(activePieceObj, keyBoardCmd);
 
-		// check if downward movement caused collision w/ 'fixed' piece
+		// check if downward movement caused collision w/ 'occupied' piece
 		if (activePieceObj.checkDownwardPieceCollision()) {
 			placePiece(activePieceObj);
 			let currentPieceClass = activePieceObj.model + 'Class';
 			let elems = document.getElementsByClassName(currentPieceClass);
 			for (let c = 0; c < elems.length; c++) {
-				elems[c].classList.add('fixed');
+				elems[c].dataset.occupied = true;
 				elems[c].style.backgroundColor = activePieceObj.color;
 				elems[c].classList.remove(currentPieceClass);
 				c--;

@@ -45,7 +45,7 @@ function pieceFactory() {
                 let yPos = coords[i].y;
                 if (boardObject[xPos]) {
                     let posNumber = boardObject[xPos][yPos].position;
-                    if (elems[posNumber].classList.contains('fixed') || elems[posNumber] === undefined) {
+                    if (elems[posNumber].dataset.occupied || elems[posNumber] === undefined) {
                         for (let i = 0; i < 3; i++) {
                             piece.rotate();
                         }
@@ -99,7 +99,7 @@ function pieceFactory() {
                 let yPos = coords[i].y;
                 if (boardObject[xPos]) {
                     let posNumber = boardObject[xPos][yPos].position;
-                    if (elems[posNumber].classList.contains('fixed')) {
+                    if (elems[posNumber].dataset.occupied) {
                         collisionFlag = true;
                         i = coords.length;
                     }
@@ -144,7 +144,7 @@ function pieceFactory() {
                     let yPos = coords[i].y;
                     if (boardObject[xPos]) {
                         let posNumber = boardObject[xPos][yPos].position;
-                        if (elems[posNumber].classList.contains('fixed')) {
+                        if (elems[posNumber].dataset.occupied) {
                             collisionFlag = true;
                             i = coords.length;
                         }
