@@ -58,7 +58,7 @@ function endGameAnimation() {
 		let tableElem = document.getElementById('table');
 		tableElem.parentNode.removeChild(tableElem);
 		generateGameGrid();
-	}, 1200);
+	}, 300);
 }
 
 export { generateGameGrid, generateBoardObject, endGameAnimation };

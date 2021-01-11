@@ -41,12 +41,9 @@ function validateRows() {
             if (count === 10) {
 
                 // set game dashboard stats 
-                setClearedLineCount();
-
-                let lines = document.getElementById('lineValue');
-                let lineValue = lines.textContent.replace(/^\D+/g, '');
-                if (lineValue % 5 === 0) {
-                    setLevel(); // +1 level 
+                let clearedCount = setClearedLineCount(1); // +1
+                if (clearedCount % 5 === 0) {
+                    setLevel(1); // +1 level 
                 }
 
                 deleteRow(elems[elemPos[0]]);

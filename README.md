@@ -8,11 +8,11 @@ The Game of Tetris used to illustrate the following design patterns' implementat
 ```
 
 ### Installation 
-```
-$ npm install
+```sh
+npm install
 ```
 
 ### Start game 
-```
-$ npm start
+```sh
+npm start
 ```

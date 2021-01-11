@@ -14,8 +14,8 @@ let gameGrid = document.getElementById('gameGrid');
 let columns = document.getElementsByClassName('column');
 
 // initialize game / clear stats 
-setLevel();
-setClearedLineCount();
+setLevel(1);
+setClearedLineCount(0);
 
 // capture user input 
 let keyBoardCmd = '';
