@@ -20,7 +20,7 @@ body {
 .column {
   flex: 50%;
   padding: 10px;
-  display: none; }
+  display: block; }
 
 .column:first-child {
   background-color: #aaa; }
@@ -72,7 +72,7 @@ tr.piece-staging-row {
   visibility: hidden; }
 
 #gameGrid {
-  display: none; }
+  display: block; }
 
 td {
   background-color: transparent;

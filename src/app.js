@@ -8,11 +8,6 @@ import { setLevel, setClearedLineCount, timeInterval } from './modules/gameStats
 // initialize grid and play grid object 
 generateGameGrid();
 
-// game menu 
-let menu = document.getElementById('menu');
-let gameGrid = document.getElementById('gameGrid');
-let columns = document.getElementsByClassName('column');
-
 // initialize game / clear stats 
 setLevel(1);
 setClearedLineCount(0);
@@ -27,15 +22,12 @@ let currentActivePiece = createPiece(getRandomPieceStr());
 let nextActivePiece = createPiece(getRandomPieceStr());
 drawIncomingShape(nextActivePiece);
 
-let moves = 0;
-if (moves === 0) {
-	placePiece(currentActivePiece);
-}
+placePiece(currentActivePiece);
 
 // end game
 function gameOver(str) {
-	if ((timerBtn.value).toLowerCase() === 'pause') {
-		timerBtn.click();
+	if ((startBtn.value).toLowerCase() === 'pause') {
+		startBtn.click();
 	}
 	clearInterval(myVar);
 	endGameAnimation();
@@ -79,23 +71,25 @@ function pieceMovement(activePieceObj) {
 			drawIncomingShape(nextActivePiece);
 
 		} else { // if no collision, proceed as expected 
+			
 			activePieceObj.moveDown();
 			placePiece(activePieceObj);
-			moves++;
 			keyBoardCmd = '';
 			validateRows();
 		}
 	}
 }
 
-// start & stop game controls 	
+/*
+ start & stop game controls 	
 
-// 5 levels total, level++ every 10 rows cleared 
-// at new level, intervalLength--100 milliseconds 
+ 5 levels total, level++ every 10 rows cleared 
+ at new level, intervalLength--100 milliseconds
+*/ 
 
-let btn;
 let timeStamp;
 let isPaused = false;
+let startBtn = document.getElementById('toggleGameTimer');
 
 let myVar = setInterval(function () {
 	myTimer();
@@ -111,31 +105,18 @@ function toggleTimer() {
 		myVar = setInterval(function () {
 			myTimer();
 		}, timeInterval);
-		btn = document.getElementById('toggleGameTimer');
 		isPaused = false;
-		btn.value = 'Pause';
+		startBtn.value = 'Pause';
 	} else {
 		clearInterval(myVar);
-		btn = document.getElementById('toggleGameTimer');
 		isPaused = true;
-		btn.value = 'Start';
+		startBtn.value = 'Start';
 	}
 }
 
-// UI buttons, rendered last 
-let timerBtn = document.getElementById('toggleGameTimer');
-timerBtn.addEventListener('click', function () {
-	toggleTimer();
-}); timerBtn.click(); // initial pause 
-
-let startBtn = document.getElementById('start');
 startBtn.addEventListener('click', function () {
-	timerBtn.click();
-	menu.style.display = 'none';
-	gameGrid.style.display = 'block';
-	columns[0].style.display = 'block';
-	columns[1].style.display = 'block';
-});
+	toggleTimer();
+}); startBtn.click(); // initial pause 
 
 let quitBtn = document.getElementById('quit');
 quitBtn.addEventListener('click', function () {
