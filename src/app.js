@@ -17,10 +17,11 @@ let keyBoardCmd = '';
 function logKey(e) { keyBoardCmd = e.code; }
 document.addEventListener('keydown', logKey);
 
-// initialize game pieces 
+// initialize game pieces /////////
 let currentActivePiece = createPiece(getRandomPieceStr());
 let nextActivePiece = createPiece(getRandomPieceStr());
 drawIncomingShape(nextActivePiece);
+///////////////////////////////////
 
 placePiece(currentActivePiece);
 
@@ -29,6 +30,13 @@ function gameOver(str) {
 	if ((startBtn.value).toLowerCase() === 'pause') {
 		startBtn.click();
 	}
+
+	// reset pieces //////////////////
+	currentActivePiece = createPiece(getRandomPieceStr());
+	nextActivePiece = createPiece(getRandomPieceStr());
+	drawIncomingShape(nextActivePiece);
+	///////////////////////////////////
+
 	clearInterval(myVar);
 	endGameAnimation();
 	setLevel(0);
@@ -66,10 +74,12 @@ function pieceMovement(activePieceObj) {
 			}
 
 			validateRows();
+			// update pieces //////////////////
 			currentActivePiece = nextActivePiece;
 			nextActivePiece = createPiece(getRandomPieceStr());
 			drawIncomingShape(nextActivePiece);
-
+			///////////////////////////////////
+		
 		} else { // if no collision, proceed as expected 
 			
 			activePieceObj.moveDown();

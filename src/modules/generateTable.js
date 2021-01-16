@@ -51,6 +51,7 @@ function endGameAnimation() {
 	let cells = document.getElementsByClassName('cell');
 	for (let i = 0; i < cells.length; i++) {
 		if (i > 19 && i < 220) {
+			cells[i].className = 'cell';
 			cells[i].style.backgroundColor = 'black';
 		}
 	}
