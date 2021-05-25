@@ -1,10 +1,12 @@
-// shuffle 
+// Durstenfeld shuffle, an optimized version of Fisher-Yates
 function shuffle(a) {
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
+	for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+	}
+	return a;
 }
 
 export { shuffle };

@@ -93,8 +93,8 @@ function pieceMovement(activePieceObj) {
 /*
  start & stop game controls 	
 
- 5 levels total, level++ every 10 rows cleared 
- at new level, intervalLength--100 milliseconds
+ 5 levels total. +1 level every 10 rows cleared 
+ at new level, intervalLength decreases by 100 milliseconds
 */ 
 
 let timeStamp;

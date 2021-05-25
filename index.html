@@ -15,9 +15,10 @@
 				<div id='gameGrid'></div>
 			</div>
 			<div class='column'>
-				<h2>Tetris</h2>
-				incoming shape
+				<h1>Tetris</h1>
+				<p style='padding-top:0margin-top:0;'>Arrow keys to move.<br>Spacebar to hard drop.</p>
 				<div class='incoming-shape'>
+					<p style='margin-bottom:0'>incoming shape</p>
 					<table id='incoming-shape' border='1'>
 						<tbody>
 							<tr>
@@ -58,8 +59,8 @@
 				<!-- game stats -->
 				<p id='levelValue'></p>
 				<p id='lineValue'></p>
-				<input type='button' id='toggleGameTimer' value='Start'>
-				<input type='button' id='quit' value='End Game'>
+				<input onkeyup='event.preventDefault()' type='button' id='toggleGameTimer' value='Start'>
+				<input onkeyup='event.preventDefault()' type='button' id='quit' value='End Game'>
 			</div>
 		</div>
 	</div>

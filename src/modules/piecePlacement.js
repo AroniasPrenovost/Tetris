@@ -37,9 +37,9 @@ function getKeyBoardCmd(activePieceObj, keyBoardCmdStr) {
                 placePiece(activePieceObj);
             }
             break;
-        case 'Escape':
-            timerBtn.click();
-            break;
+        // case 'Escape':
+        //     timerBtn.click();
+        //     break;
         default:
     }
 }
